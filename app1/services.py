@@ -161,5 +161,15 @@ class Services(object):
         act_registration.save()
         return {'code': 0}
 
+    def get_user(self, pid):
+        if pid:
+            user = models.Users.objects.get(pid=pid)
+            user.checkin = json.loads(user.checkin)
+            user_dict = model_to_dict(user)
+            user_dict['group'] = model_to_dict(user.group)
+            user_dict['location'] = model_to_dict(user.location)
+            return {'code': 0, 'data': user_dict}
+        else:
+            return {'code': 100, 'data': {}}
 
 

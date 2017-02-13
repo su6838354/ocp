@@ -23,15 +23,6 @@ def add_admin(request):
     res = service.add_admin(body_json)
     return JsonResponse(res)
 
-def get_admins(request):
-    res = service.get_admins()
-    return JsonResponse(res)
-
-def get_admin(request):
-    pid = json.loads(request.body).get('pid')
-    res = service.get_admin(pid)
-    return JsonResponse(res)
-
 """------------------------------"""
 def add_user(request):
     body_json = json.loads(request.body)
@@ -59,4 +50,21 @@ def add_act_join_log(request):
 def add_act_registration(request):
     body_json = json.loads(request.body)
     res = service.add_act_registration(body_json)
+    return JsonResponse(res)
+
+
+"-------------#################################-------------"
+def get_user(request):
+    body_json = json.loads(request.body)
+    pid = body_json.get('pid')
+    res = service.get_user(pid)
+    return JsonResponse(res)
+
+def get_admins(request):
+    res = service.get_admins()
+    return JsonResponse(res)
+
+def get_admin(request):
+    pid = json.loads(request.body).get('pid')
+    res = service.get_admin(pid)
     return JsonResponse(res)

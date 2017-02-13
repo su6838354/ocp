@@ -18,16 +18,12 @@ from . import views
 
 urlpatterns = [
     url(r'^add_admin$', views.add_admin, name='add_admin'),
-    url(r'^get_admins$', views.get_admins, name='get_admins'),
-
     url(r'^add_user', views.add_user, name='add_user'),
-
     url(r'^add__user', views.add__user, name='add__user'),
-
     url(r'^add_activity', views.add_activity, name='add_activity'),
-
     url(r'^add_act_join_log', views.add_act_join_log, name='add_act_join_log'),
-
     url(r'^add_act_registration', views.add_act_registration, name='add_act_registration'),
 
+    url(r'^get_user', views.get_user, name='get_user'),
+    url(r'^get_admins$', views.get_admins, name='get_admins'),
 ]
