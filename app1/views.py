@@ -60,6 +60,11 @@ def get_user(request):
     res = service.get_user(pid)
     return JsonResponse(res)
 
+def get_activity(request):
+    body_json = json.loads(request.body)
+    objectId = body_json.get('objectId')
+    res = service.get_admin()
+
 def get_admins(request):
     res = service.get_admins()
     return JsonResponse(res)

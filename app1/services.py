@@ -133,29 +133,39 @@ class Services(object):
     """---------------------------------------------------"""
     def add_act_registration(self, act_registration):
         admin_id = act_registration.get('admin')
-        if admin_id:
-            admin = models.Admins.objects.get(pid=admin_id)
+        if self.__check_id_tuple(admin_id):
+            admin = models.Admins.objects.get(pid=admin_id[0])
             act_registration['admin'] = admin
+        else:
+            act_registration['admin'] = None
 
         userLocationArr_id = act_registration.get('userLocationArr')
-        if userLocationArr_id:
-            userLocationArr = models.Admins.objects.get(pid=userLocationArr_id)
+        if self.__check_id_tuple(userLocationArr_id):
+            userLocationArr = models.Admins.objects.get(pid=userLocationArr_id[0])
             act_registration['userLocationArr'] = userLocationArr
+        else:
+            act_registration['userLocationArr'] = None
 
         activity_id = act_registration.get('activity')
-        if activity_id:
-            activity = models.Activities.objects.get(objectId=activity_id)
+        if self.__check_id_tuple(activity_id):
+            activity = models.Activities.objects.get(objectId=activity_id[0])
             act_registration['activity'] = activity
+        else:
+            act_registration['activity'] = None
 
         userGroupArr_id = act_registration.get('userGroupArr')
-        if userGroupArr_id:
-            userGroupArr = models.Admins.objects.get(pid=userGroupArr_id)
+        if self.__check_id_tuple(userGroupArr_id):
+            userGroupArr = models.Admins.objects.get(pid=userGroupArr_id[0])
             act_registration['userGroupArr'] = userGroupArr
+        else:
+            act_registration['userGroupArr'] = None
 
         user_id = act_registration.get('user')
-        if user_id:
-            user = models.Users.objects.get(pid=user_id)
+        if self.__check_id_tuple(user_id):
+            user = models.Users.objects.get(pid=user_id[0])
             act_registration['user'] = user
+        else:
+            act_registration['user'] = None
 
         act_registration = models.ActRegistration.build(act_registration)
         act_registration.save()
@@ -172,4 +182,13 @@ class Services(object):
         else:
             return {'code': 100, 'data': {}}
 
+    def get_activity(self, objectId):
+        if objectId:
+            activity = models.Activities.objects.get(objectId=objectId)
+            activity_dict = model_to_dict(activity)
+            activity_dict['admin'] = model_to_dict(activity.admin)
+
+            # act_registration = activity.
+        else:
+            return {'code': 100, 'data': {}}
 

@@ -159,7 +159,7 @@ class ActRegistration(models.Model):
     objectId = models.CharField(max_length=30, primary_key=True)
     admin = models.ForeignKey(Admins, related_name='actR_admin_group', null=True)
     userLocationArr = models.ForeignKey(Admins, related_name='actR_user_group', null=True)
-    activity = models.ForeignKey(Activities, null=True)
+    activity = models.ForeignKey(Activities, related_name='actR_user_group', null=True)
     isInner = models.BooleanField(default=False)
     userGroupArr = models.ForeignKey(Admins, related_name='actR_user_location', null=True)
     user = models.ForeignKey(Users, null=True)

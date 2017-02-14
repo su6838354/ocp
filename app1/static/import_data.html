@@ -7,17 +7,31 @@
         #file{
             display: none;
         }
+        #failed_log{
+            color:red;
+            width: 49%;
+            height: 600px;
+        }
+        #success_log{
+            width: 49%;
+            height: 600px;
+        }
     </style>
 </head>
 <body>
+<div>
 <input type="file" id="file">
 <input type="button" value="导入数据" id="import_btn">
-<textarea id='log'></textarea>>
+    
+</div>
+<textarea id='success_log'></textarea>
+<textarea id='failed_log'></textarea>
 
 <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
     var urlPrefix = function(url){
-        return 'http://127.0.0.1:8000/app1/' + url;
+        // return 'http://127.0.0.1:8000/app1/' + url;
+        return 'http://139.196.243.147:3390/app1/' + url;
     }
     var file2Url = {
         "Admins.json": urlPrefix('add_admin'),
@@ -25,7 +39,7 @@
         '_User.json': urlPrefix('add__user'),
         'Activities.json': urlPrefix('add_activity'),
         'ActJoinLog.json': urlPrefix('add_act_join_log'),
-        'ActRegistration.json': urlPrefix('add_act_registraction'),
+        'ActRegistration.json': urlPrefix('add_act_registration'),
 
     }
     window.onload = function () {
@@ -41,7 +55,8 @@
         //Retrieve the first (and only!) File from the FileList object
         var f = evt.target.files[0];
         var fileName = f.name;
-        $('#log').append(fileName+'\r\n');
+        $('#success_log').append('正确log' + fileName+'\r\n');
+        $('#failed_log').append('错误log' + fileName+'\r\n');
         if (f) {
             var r = new FileReader();
             r.onload = function(e) {
@@ -56,8 +71,16 @@
                     var jqxhr = $.post(url, JSON.stringify(item), (res)=>{
                         console.info(index);
                     })
-                    .done(()=>{console.info('success')})
-                    .fail(()=>{console.warn(item); $('#log').append(JSON.stringify(item)+'\r\n')});
+                    .done(()=>{
+                        console.info('success');
+                        $('#success_log').append(JSON.stringify(index)+'\r\n')
+                        $('#success_log').scrollTop($('#success_log')[0].scrollHeight);
+                    })
+                    .fail(()=>{
+                        console.warn(item); 
+                        $('#failed_log').append(JSON.stringify(item)+'\r\n')
+                        $('#failed_log').scrollTop($('#failed_log')[0].scrollHeight);
+                    });
                     index = index + 1;
                     if(index<len){
                         item = obj[index];
