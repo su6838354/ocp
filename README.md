@@ -22,7 +22,17 @@
 	404 NOT FOUND						请求的资源不存在，路由出差
 	500 INTERNAL SERVER ERROR			内部错误
 	
+###导入数据静态页面
 
+	/ocp/static/import_data.html
+-	【权限】U
+-	【说明】
+		
+	>点击导入按钮，选择需要导入的数据即可  
+	>文件名写死了匹配关系，不能修改  
+	>时间比较长，不要关闭，可以查看浏览器debug console
+
+-	【参数】
 
 
 ###用户中心接口列表

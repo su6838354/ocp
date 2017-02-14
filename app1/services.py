@@ -102,29 +102,39 @@ class Services(object):
     """---------------------------------------------------"""
     def add_act_join_log(self, act_join_log):
         admin_id = act_join_log.get('admin')
-        if admin_id and admin_id[0] != '':
+        if self.__check_id_tuple(admin_id):
             admin = models.Admins.objects.get(pid=admin_id[0])
             act_join_log['admin'] = admin
+        else:
+            act_join_log['admin'] = None
 
         userLocationArr_id = act_join_log.get('userLocationArr')
-        if userLocationArr_id:
-            userLocationArr = models.Admins.objects.get(pid=userLocationArr_id)
+        if self.__check_id_tuple(userLocationArr_id):
+            userLocationArr = models.Admins.objects.get(pid=userLocationArr_id[0])
             act_join_log['userLocationArr'] = userLocationArr
+        else:
+            act_join_log['userLocationArr'] = None
 
         activity_id = act_join_log.get('activity')
-        if activity_id:
-            activity = models.Activities.objects.get(objectId=activity_id)
+        if self.__check_id_tuple(activity_id):
+            activity = models.Activities.objects.get(objectId=activity_id[0])
             act_join_log['activity'] = activity
+        else:
+            act_join_log['activity'] = None
 
         userGroupArr_id = act_join_log.get('userGroupArr')
-        if userGroupArr_id:
-            userGroupArr = models.Admins.objects.get(pid=userLocationArr_id)
+        if self.__check_id_tuple(userGroupArr_id):
+            userGroupArr = models.Admins.objects.get(pid=userGroupArr_id[0])
             act_join_log['userGroupArr'] = userGroupArr
+        else:
+            act_join_log['userGroupArr'] = None
 
         user_id = act_join_log.get('user')
-        if user_id:
-            user = models.Users.objects.get(pid=user_id)
+        if self.__check_id_tuple(user_id):
+            user = models.Users.objects.get(pid=user_id[0])
             act_join_log['user'] = user
+        else:
+            act_join_log['user'] = None
 
         act_join_log = models.ActJoinLog.build(act_join_log)
         act_join_log.save()
