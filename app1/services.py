@@ -17,6 +17,8 @@ import models
 from django.forms.models import model_to_dict
 from django.core import serializers
 import json
+from django.db.models import Q
+from django.core.serializers.json import DjangoJSONEncoder
 
 class Services(object):
     def __index__(self):
@@ -197,8 +199,19 @@ class Services(object):
             activity = models.Activities.objects.get(objectId=objectId)
             activity_dict = model_to_dict(activity)
             activity_dict['admin'] = model_to_dict(activity.admin)
-
-            # act_registration = activity.
+            return {'code': 0, 'data': activity_dict}
         else:
             return {'code': 100, 'data': {}}
 
+    def get_activities(self, params):
+        isDelete = params.get('isDelete')
+        isShow = params.get('isShow')
+        limit = params.get('limit')
+        skip = params.get('skip')
+        activities = models.Activities.objects.filter(
+            ~Q(isDelete=isDelete), ~Q(isShow=isShow)
+        ).order_by('-createdAt')[skip: skip+limit]
+        owner_fields = [f.name for f in models.Activities._meta.get_fields()]
+        fields = owner_fields + ['admin__type', 'admin__objectId', 'admin__name', 'admin__username']
+        activities_list = list(activities.values(*fields))
+        return {'code': 0, 'data': list(activities_list)}

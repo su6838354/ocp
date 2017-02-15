@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.ajax({
+            url:"http://139.196.243.147:3390/app1/get_user",
+            data:JSON.stringify({
+                "pid": "5704a81b39b0570053979274"
+            }),
+            type:'post',
+            cache:false,
+            dataType:'json',
+            success:function(data) {
+                console.info(data);
+            },
+            error : function() {
+                // view("异常！");
+                alert("异常！");
+            }
+        });
+    }
+    )
+</script>
+</body>
+</html>

@@ -63,7 +63,8 @@ def get_user(request):
 def get_activity(request):
     body_json = json.loads(request.body)
     objectId = body_json.get('objectId')
-    res = service.get_admin()
+    res = service.get_activity(objectId)
+    return JsonResponse(res)
 
 def get_admins(request):
     res = service.get_admins()
@@ -72,4 +73,9 @@ def get_admins(request):
 def get_admin(request):
     pid = json.loads(request.body).get('pid')
     res = service.get_admin(pid)
+    return JsonResponse(res)
+
+def get_activities(request):
+    params = json.loads(request.body)
+    res = service.get_activities(params)
     return JsonResponse(res)

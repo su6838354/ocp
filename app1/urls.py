@@ -27,4 +27,6 @@ urlpatterns = [
 
     url(r'^get_user', views.get_user, name='get_user'),
     url(r'^get_admins$', views.get_admins, name='get_admins'),
+    url(r'^get_activity$', views.get_activity, name='get_activity'),
+    url(r'^get_activities$', views.get_activities, name='get_activities'),
 ]

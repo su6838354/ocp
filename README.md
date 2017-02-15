@@ -46,3 +46,35 @@
 		{
 		  "pid": "5704a81b39b0570053979274"
 		}
+
+
+
+####2.获取单条活动信息
+	/app1/get_activity
+-	【权限】U
+-	【说明】
+-	【参数】
+
+		{
+		  "objectId": "584a1bb48e450a006ab377e5"
+		}
+
+####3.获取多个活动信息列表
+	/app1/get_activities
+-	【权限】U
+-	【说明】
+
+		isDelete	  	删除
+		isShow        	展示
+		limit			单页数量
+		skip			offset偏移
+
+		数据中的admin__name 为外键中的数据，需要关注
+
+-	【参数】
+
+		{"isDelete":"1",
+		 "isShow":"0",
+		 "limit":10,
+		 "skip":20
+		}
