@@ -208,10 +208,36 @@ class Services(object):
         isShow = params.get('isShow')
         limit = params.get('limit')
         skip = params.get('skip')
+        admin_pid = params.get('admin', '')
         activities = models.Activities.objects.filter(
-            ~Q(isDelete=isDelete), ~Q(isShow=isShow)
+            ~Q(isDelete=isDelete), ~Q(isShow=isShow), Q(admin__pid__contains=admin_pid)
         ).order_by('-createdAt')[skip: skip+limit]
         owner_fields = [f.name for f in models.Activities._meta.get_fields()]
         fields = owner_fields + ['admin__type', 'admin__objectId', 'admin__name', 'admin__username']
         activities_list = list(activities.values(*fields))
         return {'code': 0, 'data': list(activities_list)}
+
+    def get_act_registration(self, params):
+        activity_objectId = params.get('activity', '')
+        user_pid = params.get('user', '')
+        act_registration_count = models.ActRegistration.objects.filter(
+            Q(activity=activity_objectId), Q(user__pid__contains=user_pid)
+        ).count()
+        return {'code': 0, 'data': {'count': act_registration_count}}
+
+    def login(self, user_role, user_name, user_pwd):
+        if user_role == "Admins":
+            admin = models.Admins.objects.filter(Q(username=user_name), Q(pwd=user_pwd)).values()
+            if len(list(admin)) == 1:
+                return {'code': 0, 'data': list(admin)[0]}
+            return {'code': 111, 'data': None, 'msg': '不存在管理员'}
+        elif user_role == "Users":
+            if user_pwd == '123456':
+                user = models.Users.objects.filter(Q(username=user_name)).values()
+                if len(list(user)) == 1:
+                    return {'code': 0, 'data': list(user)[0]}
+            return {'code': 111, 'data': None, 'msg': '不存在用户'}
+        else:
+            return {'code': 110, 'data': None, 'msg': 'userRole error'}
+
+

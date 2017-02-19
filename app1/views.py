@@ -79,3 +79,22 @@ def get_activities(request):
     params = json.loads(request.body)
     res = service.get_activities(params)
     return JsonResponse(res)
+
+def get_act_registration(request):
+    params = json.loads(request.body)
+    res = service.get_act_registration(params)
+    return JsonResponse(res)
+
+def login(request):
+    params = json.loads(request.body)
+    user_role = params.get('userRole')
+    user_name = params.get('userName')
+    user_pwd = params.get('userPwd')
+    res = service.login(user_role, user_name, user_pwd)
+    response = JsonResponse(res)
+    if res['code'] == 0:
+        response.set_cookie('user_name', user_name, 60*60*24) # 24h
+        response.set_cookie('user_role', user_role, 60 * 60 * 24)  # 24h
+        response.set_cookie('user_pid', res.get('data').get('pid'))
+    return response
+

@@ -68,6 +68,7 @@
 		isShow        	展示
 		limit			单页数量
 		skip			offset偏移
+		admin			支持模糊查询
 
 		数据中的admin__name 为外键中的数据，需要关注
 
@@ -76,5 +77,55 @@
 		{"isDelete":"1",
 		 "isShow":"0",
 		 "limit":10,
-		 "skip":20
+		 "skip":20,
+		 "admin": "57071d2ed342d300542437ea"
+		}
+
+
+####4.获取admin信息
+	/app1/get_admins
+-	【权限】U
+-	【说明】
+-	【参数】
+
+####5.获取参加指定活动的人数，查询自己是否参加该活动
+	/app1/get_act_registration
+-	【权限】U
+-	【说明】
+
+	>
+		查询自己是否参加过活动，指定user的pid
+
+-	【参数】
+		
+		{
+		 "activity": "57397f922e958a0069d68de2",
+		  "user": ""
+		}
+
+
+####4.登录接口
+	/app1/login
+-	【权限】U
+-	【说明】
+
+	> 
+		userRole		"Admins", "Users" 	
+	 
+	 
+
+-	【参数】
+
+		{
+		 "userRole": "Users",
+		  "userName": "ly0522",
+		  "userPwd": "123456"
+		}
+
+		or
+
+		{
+		 "userRole": "Admins",
+		  "userName": "shcm_mz",
+		  "userPwd": "479985"
 		}
