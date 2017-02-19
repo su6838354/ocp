@@ -67,7 +67,13 @@ def get_activity(request):
     return JsonResponse(res)
 
 def get_admins(request):
-    res = service.get_admins()
+    params = json.loads(request.body)
+    res = service.get_admins(params)
+    return JsonResponse(res)
+
+def get_admin(request):
+    params = json.loads(request.body)
+    res = service.get_admin(params)
     return JsonResponse(res)
 
 def get_admin(request):
@@ -97,4 +103,21 @@ def login(request):
         response.set_cookie('user_role', user_role, 60 * 60 * 24)  # 24h
         response.set_cookie('user_pid', res.get('data').get('pid'))
     return response
+
+def logout(request):
+    response = JsonResponse({'code': 0, 'data': None})
+    response.delete_cookie('user_name')
+    request.delete_cookie('user_role')
+    request.delete_cookie('user_pid')
+    return response
+
+def create_act_registration(request):
+    params = json.loads(request.body)
+    res = service.create_act_registration(params)
+    return JsonResponse(res)
+
+def get_act_join_log(request):
+    params = json.loads(request.body)
+    res = service.get_act_join_log(params)
+    return JsonResponse(res)
 

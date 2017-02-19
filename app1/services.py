@@ -12,7 +12,7 @@
 @file: services.py
 @time: 2017/2/11 0011 下午 1:23
 """
-
+import util
 import models
 from django.forms.models import model_to_dict
 from django.core import serializers
@@ -37,11 +37,20 @@ class Services(object):
         admin.save()
         return {'code': 0}
 
-    def get_admins(self):
-        admins = models.Admins.objects.values()
+    def get_admins(self, params):
+        isShow = params.get('isShow')
+        limit = params.get('limit')
+        skip = params.get('skip')
+        admins = models.Admins.objects.filter(Q(isShow=isShow)).values()[skip: skip+limit]
         # admins_json = serializers.serialize('json', admins)
         admins_list = list(admins)
         return {'code': 0, 'data': admins_list}
+
+    def get_admin(self, params):
+        pid = params.get('pid')
+        admin = models.Admins.objects.get(pid=pid)
+        admin_dict = model_to_dict(admin)
+        return {'code': 0, 'data': admin_dict}
 
     def get_admin(self, pid):
         admin = models.Admins.objects.get(pid=pid)
@@ -188,8 +197,10 @@ class Services(object):
             user = models.Users.objects.get(pid=pid)
             user.checkin = json.loads(user.checkin)
             user_dict = model_to_dict(user)
-            user_dict['group'] = model_to_dict(user.group)
-            user_dict['location'] = model_to_dict(user.location)
+            if user.group != None:
+                user_dict['group'] = model_to_dict(user.group)
+            if user.location != None:
+                user_dict['location'] = model_to_dict(user.location)
             return {'code': 0, 'data': user_dict}
         else:
             return {'code': 100, 'data': {}}
@@ -227,17 +238,48 @@ class Services(object):
 
     def login(self, user_role, user_name, user_pwd):
         if user_role == "Admins":
-            admin = models.Admins.objects.filter(Q(username=user_name), Q(pwd=user_pwd)).values()
-            if len(list(admin)) == 1:
-                return {'code': 0, 'data': list(admin)[0]}
+            admins = models.Admins.objects.filter(Q(username=user_name), Q(pwd=user_pwd)).values()
+            if len(list(admins)) == 1:
+                admin = admins[0]
+                return {'code': 0, 'data': admin}
             return {'code': 111, 'data': None, 'msg': '不存在管理员'}
         elif user_role == "Users":
             if user_pwd == '123456':
-                user = models.Users.objects.filter(Q(username=user_name)).values()
-                if len(list(user)) == 1:
-                    return {'code': 0, 'data': list(user)[0]}
+                users = models.Users.objects.filter(Q(username=user_name)).values()
+                if len(list(users)) == 1:
+                    user = users.first()
+                    user_dict = user
+                    if user.get('group_id') is not None:
+                        user_dict['group'] = model_to_dict(models.Admins.objects.get(pid=user_dict['group_id']))
+                    if user.get('location_id') is not None:
+                        user_dict['location'] = model_to_dict(models.Admins.objects.get(pid=user_dict['location_id']))
+                    user_dict['checkin'] = json.loads(user_dict.get('checkin', {}))
+                    return {'code': 0, 'data': user_dict}
             return {'code': 111, 'data': None, 'msg': '不存在用户'}
         else:
             return {'code': 110, 'data': None, 'msg': 'userRole error'}
 
+    def create_act_registration(self, params):
+        params['objectId'] = util.get_uuid_24()
+        params['createdAt'] = util.get_now_tuc()
+        params['updatedAt'] = util.get_now_tuc()
+        params['admin'] = models.Admins.objects.get(pid=params.get('admin'))
+        params['userLocationArr'] = models.Admins.objects.get(pid=params.get('userLocationArr'))
+        params['activity'] = models.Activities.objects.get(objectId=params.get('activity'))
+        params['userGroupArr'] = models.Admins.objects.get(pid=params.get('userGroupArr'))
+        params['user'] = models.Users.objects.get(pid=params.get('user'))
+        if params.get('isInner') is None:
+            params['isInner'] = False
+        act_registeration = models.ActRegistration.build(params)
+        act_registeration.save()
+        return {'code': 0, 'data': {'objectId': act_registeration.objectId}, 'msg': 'save success'}
 
+    def get_act_join_log(self, params):
+        user_id = params.get('user')
+        admin_id = params.get('admin', '')
+        act_join_logs = models.ActJoinLog.objects.filter(
+            Q(user=user_id),
+            Q(admin__pid__contains=admin_id)
+        ).values()
+        act_join_logs_list = list(act_join_logs)
+        return {'code': 0, 'data': act_join_logs_list}

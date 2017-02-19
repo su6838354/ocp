@@ -47,9 +47,79 @@
 		  "pid": "5704a81b39b0570053979274"
 		}
 
+####2.获取admin信息
+	/app1/get_admins
+-	【权限】U
+-	【说明】
+-	【参数】
+
+		{"isDelete":"0",
+		 "isShow":"1",
+		 "limit":10,
+		 "skip":0
+		}
+
+####3.登录接口
+	/app1/login
+-	【权限】U
+-	【说明】
+
+	> 
+		userRole		"Admins", "Users" 	
+		cookie 中存放了 user_name, user_pid, user_role
+	 
+	 
+
+-	【参数】
+
+		{
+		 "userRole": "Users",
+		  "userName": "ly0522",
+		  "userPwd": "123456"
+		}
+
+		or
+
+		{
+		 "userRole": "Admins",
+		  "userName": "shcm_mz",
+		  "userPwd": "479985"
+		}
+
+####4.获取评星数据
+	/app1/get_act_join_log
+-	【权限】U
+-	【说明】
+
+	> admin 支持模糊查询
+		
+
+-	【参数】
+
+		{
+		  "user": "5728a16f49830c00536952a2",
+		  "admin":"5707269b2e958a0057b3e3b0"
+		}
 
 
-####2.获取单条活动信息
+####5.获取单个管理员详情
+	/app1/get_admin
+-	【权限】U
+-	【说明】
+
+	>
+		
+
+-	【参数】
+
+		{
+		  "pid": "57054a7bc4c971005149399a"
+		}
+
+
+###活动接口列表
+
+####1.获取单条活动信息
 	/app1/get_activity
 -	【权限】U
 -	【说明】
@@ -59,7 +129,7 @@
 		  "objectId": "584a1bb48e450a006ab377e5"
 		}
 
-####3.获取多个活动信息列表
+####2.获取多个活动信息列表
 	/app1/get_activities
 -	【权限】U
 -	【说明】
@@ -82,13 +152,8 @@
 		}
 
 
-####4.获取admin信息
-	/app1/get_admins
--	【权限】U
--	【说明】
--	【参数】
 
-####5.获取参加指定活动的人数，查询自己是否参加该活动
+####3.获取参加指定活动的人数，该接口还可以用来 查询自己是否参加该活动
 	/app1/get_act_registration
 -	【权限】U
 -	【说明】
@@ -104,28 +169,28 @@
 		}
 
 
-####4.登录接口
-	/app1/login
+
+
+####4.参加活动
+	/app1/create_act_registration
 -	【权限】U
 -	【说明】
 
-	> 
-		userRole		"Admins", "Users" 	
-	 
-	 
+	>
+		
 
 -	【参数】
-
+		
 		{
-		 "userRole": "Users",
-		  "userName": "ly0522",
-		  "userPwd": "123456"
+		 "admin":"57071d2ed342d300542437ea",
+		 "userLocationArr":"570539afa34131004ceeb5a3",
+		 "activity":"57397fbc79df5400601c42c0",
+		 "userGroupArr": "57074e1e5bbb500051f10d3a",
+		 "user": "570c5e0639b057006b82e0ef",
+		 "isInner": false
 		}
 
-		or
 
-		{
-		 "userRole": "Admins",
-		  "userName": "shcm_mz",
-		  "userPwd": "479985"
-		}
+
+
+
