@@ -121,3 +121,9 @@ def get_act_join_log(request):
     res = service.get_act_join_log(params)
     return JsonResponse(res)
 
+def create_act_join_log(request):
+    params = json.loads(request.body)
+    res = service.create_act_join_log(params)
+    return JsonResponse(res)
+
+

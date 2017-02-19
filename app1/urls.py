@@ -34,4 +34,5 @@ urlpatterns = [
     url(r'^get_act_registration$', views.get_act_registration, name='get_act_registration'),
     url(r'^create_act_registration$', views.create_act_registration, name='create_act_registration'),
     url(r'^get_act_join_log$', views.get_act_join_log, name='get_act_join_log'),
+    url(r'^create_act_join_log$', views.create_act_join_log, name='create_act_join_log'),
 ]

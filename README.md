@@ -190,6 +190,30 @@
 		 "isInner": false
 		}
 
+####5.评价星级
+	/app1/create_act_join_log
+-	【权限】U
+-	【说明】
+
+	>
+		
+
+-	【参数】
+		
+		{
+		  "admin": "5707269b2e958a0057b3e3b0",
+		  "userLocationArr": "",
+		  "createdAt": "2016-05-16T07:04:22.430Z",
+		  "star": 5,
+		  "activity": "57396fc11ea4930060f40d93",
+		  "isInner": true,
+		  "userGroupArr": "5707269b2e958a0057b3e3b0",
+		  "user":"5728a7c771cfe4006b88c9f3"
+		}
+
+
+
+
 
 
 

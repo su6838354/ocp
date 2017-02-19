@@ -283,3 +283,38 @@ class Services(object):
         ).values()
         act_join_logs_list = list(act_join_logs)
         return {'code': 0, 'data': act_join_logs_list}
+
+    def create_act_join_log(self, params):
+        params['objectId'] = util.get_uuid_24()
+        params['createdAt'] = util.get_now_tuc()
+        params['updatedAt'] = util.get_now_tuc()
+        if params['admin'] is not None and  params['admin'] != '':
+            params['admin'] = models.Admins.objects.get(pid=params.get('admin'))
+        else:
+            params['admin'] = None
+
+        if params['userLocationArr'] is not None and params['userLocationArr'] != '':
+            params['userLocationArr'] = models.Admins.objects.get(pid=params.get('userLocationArr'))
+        else:
+            params['userLocationArr'] = None
+
+        if params['activity'] is not None and params['activity'] != '':
+            params['activity'] = models.Activities.objects.get(objectId=params.get('activity'))
+        else:
+            params['activity'] = None
+
+        if params['userGroupArr'] is not None and params['userGroupArr'] != '':
+            params['userGroupArr'] = models.Admins.objects.get(pid=params.get('userGroupArr'))
+        else:
+            params['userGroupArr'] = None
+
+        if params['user'] is not None and params['user'] != '':
+            params['user'] = models.Users.objects.get(pid=params.get('user'))
+        else:
+            params['user'] = None
+
+        if params.get('isInner') is None:
+            params['isInner'] = False
+        act_registeration = models.ActJoinLog.build(params)
+        act_registeration.save()
+        return {'code': 0, 'data': {'objectId': act_registeration.objectId}, 'msg': 'save success'}
