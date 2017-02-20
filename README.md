@@ -211,8 +211,26 @@
 		  "user":"5728a7c771cfe4006b88c9f3"
 		}
 
+####6.创建活动
+	/app1/create_activity
+-	【权限】U
+-	【说明】
 
+	>
+		
 
+-	【参数】
+		
+		{
+		  "limit": "3",
+		  "admin": "5704bfd371cfe4005418a086",
+		  "place": "城西社区",
+		  "content": "2月15日参与环境洁净日活动，清扫道路、绿化带，整理自行车棚。",
+		  "title": "环境洁净日",
+		  "isDelete": "0",
+		  "isShow": "1",
+		  "joinnum": 3
+		}
 
 
 

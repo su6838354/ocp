@@ -228,6 +228,21 @@ class Services(object):
         activities_list = list(activities.values(*fields))
         return {'code': 0, 'data': list(activities_list)}
 
+    def create_activity(self, params):
+        params['objectId'] = util.get_uuid_24()
+        params['createdAt'] = util.get_now_tuc()
+        params['updatedAt'] = util.get_now_tuc()
+        admin_id = params.get('admin')
+        if admin_id is not None and admin_id != '':
+            admin = models.Admins.objects.get(pid=admin_id)
+            params['admin'] = admin
+        else:
+            params['admin'] = None
+
+        activity = models.Activities.build(params)
+        activity.save()
+        return {'code': 0, 'data': {'objectId': activity.objectId}, 'msg': '保存成功'}
+
     def get_act_registration(self, params):
         activity_objectId = params.get('activity', '')
         user_pid = params.get('user', '')

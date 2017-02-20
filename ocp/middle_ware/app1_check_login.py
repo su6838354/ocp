@@ -30,6 +30,7 @@ class CheckLogin(MiddlewareMixin):
         self.get_response = get_response
 
     def process_request(self, request):
+        return None
         if request.path not in NO_LOGIN:
             user_name = request.COOKIES.get('user_name')
             if user_name == None:

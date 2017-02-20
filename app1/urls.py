@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^get_admin$', views.get_admin, name='get_admin'),
     url(r'^get_activity$', views.get_activity, name='get_activity'),
     url(r'^get_activities$', views.get_activities, name='get_activities'),
+    url(r'^create_activity$', views.create_activity, name='create_activity'),
     url(r'^get_act_registration$', views.get_act_registration, name='get_act_registration'),
     url(r'^create_act_registration$', views.create_act_registration, name='create_act_registration'),
     url(r'^get_act_join_log$', views.get_act_join_log, name='get_act_join_log'),

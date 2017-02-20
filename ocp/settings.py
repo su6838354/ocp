@@ -49,7 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'ocp.middle_ware.app1_check_login.CheckLogin'
+    'ocp.middle_ware.app1_check_login.CheckLogin',
+    'ocp.middle_ware.allow_csrf.AllowCsrf'
 ]
 
 ROOT_URLCONF = 'ocp.urls'
