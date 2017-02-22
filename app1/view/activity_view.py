@@ -54,6 +54,11 @@ def get_act_registration(request):
     res = service.get_act_registration(params)
     return res
 
+def get_act_registration_count(request):
+    params = json.loads(request.body)
+    res = service.get_act_registration_count(params)
+    return res
+
 def create_act_registration(request):
     params = json.loads(request.body)
     res = service.create_act_registration(params)

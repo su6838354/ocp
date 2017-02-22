@@ -169,7 +169,7 @@
 
 
 ####3.获取参加指定活动的人数，该接口还可以用来 查询自己是否参加该活动
-	/app1/get_act_registration
+	/app1/get_act_registration_count
 -	【权限】U
 -	【说明】
 
@@ -183,6 +183,21 @@
 		  "user": ""
 		}
 
+####3.获取参加指定活动的人数，该接口还可以用来 查询自己是否参加该活动
+	/app1/get_act_registration
+-	【权限】U
+-	【说明】
+
+	>
+		查询自己是否参加过活动，指定user的pid
+
+-	【参数】
+		
+		{
+		 "activity": "57397f922e958a0069d68de2",
+		"page_index": 1,
+		"limit": 10
+		}
 
 
 

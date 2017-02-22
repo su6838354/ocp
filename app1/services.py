@@ -249,13 +249,27 @@ class Services(object):
         activity.save()
         return {'code': 0, 'data': {'objectId': activity.objectId}, 'msg': '保存成功'}
 
-    def get_act_registration(self, params):
+    def get_act_registration_count(self, params):
         activity_objectId = params.get('activity', '')
         user_pid = params.get('user', '')
         act_registration_count = models.ActRegistration.objects.filter(
             Q(activity=activity_objectId), Q(user__pid__contains=user_pid)
         ).count()
         return {'code': 0, 'data': {'count': act_registration_count}}
+
+    def get_act_registration(self, params):
+        activity_objectId = params.get('activity', '')
+        limit = params.get('limit', 10)
+        page_index = params.get('page_index', 1)
+        user_pid = params.get('user', '')
+        act_registration = models.ActRegistration.objects.filter(
+            Q(activity=activity_objectId), Q(user__pid__contains=user_pid)
+        )
+        count = act_registration.count()
+        act_registration_values = act_registration[(page_index-1)*limit: page_index*limit].values()
+        res = {'code': 0, 'data': list(act_registration_values)}
+        res.update(util.make_pagination(count, page_index, limit))
+        return res
 
     def login(self, user_role, user_name, user_pwd):
         if user_role == "Admins":
