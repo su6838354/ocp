@@ -287,7 +287,7 @@ class Services(object):
 	try:
             params['admin'] = models.Admins.objects.get(pid=params.get('admin'))
 	except:
-	    params[''admin] = None
+	    params['admin'] = None
 
 	try:
             params['userLocationArr'] = models.Admins.objects.get(pid=params.get('userLocationArr'))
@@ -303,7 +303,7 @@ class Services(object):
 	try:
             params['user'] = models.Users.objects.get(pid=params.get('user'))
 	except:
-	    params[''user] = None
+	    params['user'] = None
         if params.get('isInner') is None:
             params['isInner'] = False
         act_registeration = models.ActRegistration.build(params)
