@@ -9,6 +9,20 @@
 		"code": 112,
 		"data":{}
 		}
+			
+>若data是列表数据,参数一般需要page_index(当前页码) 和 limit(每页数量)  
+	
+>返回值中带有
+
+>	
+			pagination":
+			{
+				"count": 13, // 总数
+				"page_index": 2, // 当前页码
+				"page_count": 2, // 页码总数
+				"limit": 10 // 每页数量
+			}
+		
 -	3.权限，cookie等其他功能后续开启，目前服务启动采用python自带的socket和wsgiref，比较脆弱，
 
 
@@ -56,7 +70,7 @@
 		{"isDelete":"0",
 		 "isShow":"1",
 		 "limit":10,
-		 "skip":0
+		 "page_index":1
 		}
 
 ####3.登录接口
@@ -144,11 +158,12 @@
 
 -	【参数】
 
-		{"isDelete":"1",
-		 "isShow":"0",
-		 "limit":10,
-		 "skip":20,
-		 "admin": "57071d2ed342d300542437ea"
+		{
+		"isDelete":"0",
+		"isShow":"1",
+ 		"limit":10,
+		"page_index":2,
+		"admin":"57071cdda34131004cfea8fe"
 		}
 
 

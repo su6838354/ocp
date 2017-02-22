@@ -14,6 +14,7 @@
 """
 import uuid
 import datetime
+import math
 
 
 def get_uuid_24():
@@ -21,5 +22,17 @@ def get_uuid_24():
     tmp = str(tmp).replace('-', '')
     return tmp[0:24]
 
+
 def get_now_tuc():
     return datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def make_pagination(count, page_index, limit):
+    return {'pagination':
+        {
+            'count': count,
+            'limit': limit,
+            'page_count': int(math.ceil(float(count) / limit)),
+            'page_index': page_index
+        }
+    }

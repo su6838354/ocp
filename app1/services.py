@@ -40,19 +40,18 @@ class Services(object):
     def get_admins(self, params):
         isShow = params.get('isShow')
         limit = params.get('limit')
-        skip = params.get('skip')
-        admins = models.Admins.objects.filter(Q(isShow=isShow)).values()[skip: skip+limit]
+        page_index = params.get('page_index')
+        admins_all = models.Admins.objects.filter(Q(isShow=isShow))
+        count = admins_all.count()
+        admins = admins_all[(page_index-1)*limit: page_index*limit]
         # admins_json = serializers.serialize('json', admins)
-        admins_list = list(admins)
-        return {'code': 0, 'data': admins_list}
+        admins_list = list(admins.values())
+        res = {'code': 0, 'data': admins_list}
+        res.update(util.make_pagination(count, page_index, limit))
+        return res
 
     def get_admin(self, params):
         pid = params.get('pid')
-        admin = models.Admins.objects.get(pid=pid)
-        admin_dict = model_to_dict(admin)
-        return {'code': 0, 'data': admin_dict}
-
-    def get_admin(self, pid):
         admin = models.Admins.objects.get(pid=pid)
         admin_dict = model_to_dict(admin)
         return {'code': 0, 'data': admin_dict}
@@ -218,15 +217,21 @@ class Services(object):
         isDelete = params.get('isDelete')
         isShow = params.get('isShow')
         limit = params.get('limit')
-        skip = params.get('skip')
+        page_index = params.get('page_index')
         admin_pid = params.get('admin', '')
-        activities = models.Activities.objects.filter(
-            ~Q(isDelete=isDelete), ~Q(isShow=isShow), Q(admin__pid__contains=admin_pid)
-        ).order_by('-createdAt')[skip: skip+limit]
+        activities_all = models.Activities.objects.filter(
+            Q(isDelete=isDelete), Q(isShow=isShow), Q(admin__pid__contains=admin_pid)
+        ).order_by('-createdAt')
+        count = activities_all.count()
+        activities = activities_all[(page_index-1)*limit: page_index*limit]
         owner_fields = [f.name for f in models.Activities._meta.get_fields()]
+        owner_fields.remove('actR_user_group')
+        owner_fields.remove('actjoinlog')
         fields = owner_fields + ['admin__type', 'admin__objectId', 'admin__name', 'admin__username']
-        activities_list = list(activities.values(*fields))
-        return {'code': 0, 'data': list(activities_list)}
+        activities_values = activities.values(*fields)
+        res = {'code': 0, 'data': list(activities_values)}
+        res.update(util.make_pagination(count, page_index, limit))
+        return res
 
     def create_activity(self, params):
         params['objectId'] = util.get_uuid_24()
