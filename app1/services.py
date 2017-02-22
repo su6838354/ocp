@@ -244,6 +244,7 @@ class Services(object):
         else:
             params['admin'] = None
 
+
         activity = models.Activities.build(params)
         activity.save()
         return {'code': 0, 'data': {'objectId': activity.objectId}, 'msg': '保存成功'}
@@ -283,11 +284,26 @@ class Services(object):
         params['objectId'] = util.get_uuid_24()
         params['createdAt'] = util.get_now_tuc()
         params['updatedAt'] = util.get_now_tuc()
-        params['admin'] = models.Admins.objects.get(pid=params.get('admin'))
-        params['userLocationArr'] = models.Admins.objects.get(pid=params.get('userLocationArr'))
+	try:
+            params['admin'] = models.Admins.objects.get(pid=params.get('admin'))
+	except:
+	    params[''admin] = None
+
+	try:
+            params['userLocationArr'] = models.Admins.objects.get(pid=params.get('userLocationArr'))
+	except:
+	    params['userLocationArr'] = None
+
         params['activity'] = models.Activities.objects.get(objectId=params.get('activity'))
-        params['userGroupArr'] = models.Admins.objects.get(pid=params.get('userGroupArr'))
-        params['user'] = models.Users.objects.get(pid=params.get('user'))
+        try:
+            params['userGroupArr'] = models.Admins.objects.get(pid=params.get('userGroupArr'))
+	except:
+	    params['userGroupArr'] = None
+
+	try:
+            params['user'] = models.Users.objects.get(pid=params.get('user'))
+	except:
+	    params[''user] = None
         if params.get('isInner') is None:
             params['isInner'] = False
         act_registeration = models.ActRegistration.build(params)
