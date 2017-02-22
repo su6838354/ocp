@@ -38,6 +38,11 @@ def get_activity(request):
     res = service.get_activity(objectId)
     return res
 
+def update_activity(request):
+    params = json.loads(request.body)
+    res = service.update_activity(params)
+    return res
+
 def get_activities(request):
     params = json.loads(request.body)
     res = service.get_activities(params)

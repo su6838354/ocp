@@ -112,7 +112,9 @@
 
 		{
 		  "user": "5728a16f49830c00536952a2",
-		  "admin":"5707269b2e958a0057b3e3b0"
+		  "admin":"5707269b2e958a0057b3e3b0",
+		  "page_index": 1,
+		  "limit": 10
 		}
 
 
@@ -129,6 +131,45 @@
 		{
 		  "pid": "57054a7bc4c971005149399a"
 		}
+
+####6.修改用户信息
+	/app1/update_user
+-	【权限】U
+-	【说明】
+
+	>
+		objectId 和pid不能修改，其他的都可以修改，所以不修改的情况下，原封不动传回去	
+
+-	【参数】
+
+		{
+		  "username": "nrw1500",
+		  "group":  "5704024971cfe4005dc06f9d",
+		  "realname": "\u502a\u777f\u6587",
+		  "objectId": "57071b61128fe10052698894",
+		  "mobile": "18019161988",
+		  "political": "\u56e2\u5458",
+		  "checkin": [
+		    "true",
+		    "2016",
+		    "06",
+		    "06",
+		    "15:39:35"
+		  ],
+		  "idcard": "310230200111161500",
+		  "pid": "57071b601ea49300559f8ec4",
+		  "isShow": "1",
+		  "sex": "\u5973",
+		  "job": "\u5b66\u751f",
+		  "location": "5706319f8ac247004c07af53",
+		  "birth": "2001-11-15T16:00:00Z",
+		  "address": "\u5d07\u660e\u65b0\u5d07\u5357\u8def298-3-403",
+		  "updatedAt": "2016-06-06T07:39:35Z",
+		  "createdAt": "2016-04-08T02:45:53Z",
+		  "flagNumber": "16056011"
+		}
+
+
 
 
 ###活动接口列表
@@ -261,6 +302,30 @@
 		  "isShow": "1",
 		  "joinnum": 3
 		}
+
+####6.更新活动
+	/app1/update_activity
+-	【权限】U
+-	【说明】
+
+	>
+		createdAt 和objectId 保持原来的，其他数据随便改
+
+-	【参数】
+		
+		{
+  		  "objectId": "57396fc11ea4930060f40d93",
+		  "limit": "3",get_act_join_log
+		  "admin": "5704bfd371cfe4005418a086",
+		  "place": "城西社区",
+		  "content": "2月15日参与环境洁净日活动，清扫道路、绿化带，整理自行车棚。",
+		  "title": "环境洁净日",
+		  "isDelete": "0",
+		  "isShow": "1",
+		  "joinnum": 3,
+		  "createdAt": ""
+		}
+
 
 
 

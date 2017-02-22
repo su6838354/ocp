@@ -90,6 +90,32 @@ class Services(object):
         user.save()
         return {'code': 0}
 
+    def update_user(self, params):
+        user = params
+        group_id = user.get('group')
+        try:
+            group = models.Admins.objects.get(pid=group_id)
+            user['group'] = group
+        except:
+            user['group'] = None
+
+        location_id = user.get('location')
+        try:
+            location = models.Admins.objects.get(pid=location_id)
+            user['location'] = location
+        except:
+            user['location'] = None
+
+        checkin = user.get('checkin')
+        if checkin:
+            checkin = json.dumps(checkin)
+            user['checkin'] = checkin
+        else:
+            user['checkin'] = None
+
+        user = models.Users.build(user)
+        user.save()
+        return {'code': 0, 'msg': '更新成功', 'data': {'pid': user.pid}}
     """---------------------------------------------------"""
     def add__user(self, _user):
         _user = models._User.build(_user)
@@ -213,6 +239,20 @@ class Services(object):
         else:
             return {'code': 100, 'data': {}}
 
+    def update_activity(self, params):
+        # params['objectId'] = util.get_uuid_24()
+        # params['createdAt'] = util.get_now_tuc()
+        params['updatedAt'] = util.get_now_tuc()
+        admin_id = params.get('admin')
+        if admin_id is not None and admin_id != '':
+            admin = models.Admins.objects.get(pid=admin_id)
+            params['admin'] = admin
+        else:
+            params['admin'] = None
+        activity = models.Activities.build(params)
+        activity.save()
+        return {'code': 0, 'data': {'objectId': activity.objectId}, 'msg': '更新成功'}
+
     def get_activities(self, params):
         isDelete = params.get('isDelete')
         isShow = params.get('isShow')
@@ -261,12 +301,19 @@ class Services(object):
         activity_objectId = params.get('activity', '')
         limit = params.get('limit', 10)
         page_index = params.get('page_index', 1)
-        user_pid = params.get('user', '')
         act_registration = models.ActRegistration.objects.filter(
-            Q(activity=activity_objectId), Q(user__pid__contains=user_pid)
-        )
+            Q(activity=activity_objectId)
+        ).order_by('-createdAt')
         count = act_registration.count()
-        act_registration_values = act_registration[(page_index-1)*limit: page_index*limit].values()
+        fileds = ['admin__pid', 'admin__type', 'admin__name', 'admin__username',
+                  'userLocationArr__objectId', 'userLocationArr__type', 'userLocationArr__name', 'userLocationArr__username',
+                  'activity__objectId', 'activity__title', 'activity__content',
+                  'userGroupArr__objectId', 'userGroupArr__name', 'userGroupArr__username', 'userGroupArr__type',
+                  'user__pid', 'user__realname', 'user__username', 'user__sex', 'user__group__name',
+                  'user__mobile', 'user__political',
+                  'objectId'
+                  ]
+        act_registration_values = act_registration[(page_index-1)*limit: page_index*limit].values(*fileds)
         res = {'code': 0, 'data': list(act_registration_values)}
         res.update(util.make_pagination(count, page_index, limit))
         return res
@@ -325,14 +372,19 @@ class Services(object):
         return {'code': 0, 'data': {'objectId': act_registeration.objectId}, 'msg': 'save success'}
 
     def get_act_join_log(self, params):
+        page_index = params.get('page_index', 1)
+        limit = params.get('limit', 10)
         user_id = params.get('user')
         admin_id = params.get('admin', '')
         act_join_logs = models.ActJoinLog.objects.filter(
             Q(user=user_id),
             Q(admin__pid__contains=admin_id)
-        ).values()
-        act_join_logs_list = list(act_join_logs)
-        return {'code': 0, 'data': act_join_logs_list}
+        ).order_by('-createAt')
+        count = act_join_logs.count()
+        act_join_logs_values = act_join_logs.values()
+        act_join_logs_list = list(act_join_logs_values)
+        res = {'code': 0, 'data': act_join_logs_list}
+        res.update(util.make_pagination(count, page_index, limit))
 
     def create_act_join_log(self, params):
         params['objectId'] = util.get_uuid_24()

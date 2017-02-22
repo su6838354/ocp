@@ -29,3 +29,8 @@ def get_user(request):
     pid = body_json.get('pid')
     res = service.get_user(pid)
     return res
+
+def update_user(request):
+    params = json.loads(request.body)
+    res = service.update_user(params)
+    return res
