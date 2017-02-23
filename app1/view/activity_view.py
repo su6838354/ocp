@@ -48,6 +48,11 @@ def get_activities(request):
     res = service.get_activities(params)
     return res
 
+def get_activities_by_join(request):
+    params = json.loads(request.body)
+    res = service.get_activities_by_join(params)
+    return res
+
 def create_activity(request):
     params = json.loads(request.body)
     res = service.create_activity(params)

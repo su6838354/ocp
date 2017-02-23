@@ -35,6 +35,10 @@ def update_user(request):
     res = service.update_user(params)
     return res
 
+def update_user_checkin(request):
+    params = json.loads(request.body)
+    res = service.update_user_checkin(params)
+    return res
 
 def get_user_checkin(request):
     params = json.loads(request.body)
