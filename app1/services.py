@@ -15,10 +15,14 @@
 import util
 import models
 from django.forms.models import model_to_dict
+from django.db.models import F
 from django.core import serializers
 import json
 from django.db.models import Q
 from django.core.serializers.json import DjangoJSONEncoder
+import traceback
+
+
 
 class Services(object):
     def __index__(self):
@@ -30,8 +34,8 @@ class Services(object):
         else:
             return False
 
-
     """---------------------------------------------------"""
+
     def add_admin(self, admin):
         admin = models.Admins.build(admins=admin)
         admin.save()
@@ -43,7 +47,7 @@ class Services(object):
         page_index = params.get('page_index')
         admins_all = models.Admins.objects.filter(Q(isShow=isShow))
         count = admins_all.count()
-        admins = admins_all[(page_index-1)*limit: page_index*limit]
+        admins = admins_all[(page_index - 1) * limit: page_index * limit]
         # admins_json = serializers.serialize('json', admins)
         admins_list = list(admins.values())
         res = {'code': 0, 'data': admins_list}
@@ -56,7 +60,14 @@ class Services(object):
         admin_dict = model_to_dict(admin)
         return {'code': 0, 'data': admin_dict}
 
+    def update_admin(self, params):
+        params['updatedAt'] = util.get_now_tuc()
+        admin = models.Admins.build(admins=params)
+        admin.save()
+        return {'code': 0, 'data': {'pid': admin.pid}, 'msg': '更新成功'}
+
     """---------------------------------------------------"""
+
     def add_user(self, user):
         group_id = user.get('group')
         if self.__check_id_tuple(group_id):
@@ -116,13 +127,16 @@ class Services(object):
         user = models.Users.build(user)
         user.save()
         return {'code': 0, 'msg': '更新成功', 'data': {'pid': user.pid}}
+
     """---------------------------------------------------"""
+
     def add__user(self, _user):
         _user = models._User.build(_user)
         _user.save()
         return {'code': 0}
 
     """---------------------------------------------------"""
+
     def add_activity(self, activity):
         admin_id = activity.get('admin')
         if self.__check_id_tuple(admin_id):
@@ -136,6 +150,7 @@ class Services(object):
         return {'code': 0}
 
     """---------------------------------------------------"""
+
     def add_act_join_log(self, act_join_log):
         admin_id = act_join_log.get('admin')
         if self.__check_id_tuple(admin_id):
@@ -177,6 +192,7 @@ class Services(object):
         return {'code': 0}
 
     """---------------------------------------------------"""
+
     def add_act_registration(self, act_registration):
         admin_id = act_registration.get('admin')
         if self.__check_id_tuple(admin_id):
@@ -230,6 +246,48 @@ class Services(object):
         else:
             return {'code': 100, 'data': {}}
 
+    def get_users(self, params):
+        page_index = params.get('page_index', 1)
+        limit = params.get('limit', 10)
+        order_by = params.get('order_by', 'flagNumber')
+        group = params.get('group', '')
+        flagNumber = params.get('flagNumber')
+        mobile=params.get('mobile', '')
+        idcard=params.get('idcard', '')
+        realname=params.get('realname', '')
+        username=params.get('username', '')
+        users = models.Users.objects.filter(
+            Q(group__pid__contains=group), Q(flagNumber__contains=flagNumber),
+            Q(mobile__contains=mobile), Q(idcard__contains=idcard),
+            Q(realname__contains=realname), Q(username__contains=username)
+        ).order_by(order_by)
+        count = users.count()
+        users_list = list(users.values()[(page_index-1)*limit: page_index*limit])
+        res = {'code': 0, 'data': users_list}
+        res.update(util.make_pagination(count, page_index, limit))
+        return res
+
+
+    def get_user_checkin(self, params):
+        page_index = params.get('page_index', 1)
+        limit = params.get('limit', 10)
+        checkin = params.get('checkin')
+        group = params.get('group', '')
+        if checkin is False:
+            users = models.Users.objects.filter(
+                Q(checkin=None), Q(group__pid__contains=group)
+            )
+        else:
+            users = models.Users.objects.filter(
+                ~Q(checkin=None), Q(group__pid__contains=group)
+            )
+        count = users.count()
+        users_list = list(users[(page_index-1)*limit: page_index*limit].values())
+        res = {'code': 0, 'data': users_list}
+        res.update(util.make_pagination(count, page_index, limit))
+        return res
+
+
     def get_activity(self, objectId):
         if objectId:
             activity = models.Activities.objects.get(objectId=objectId)
@@ -242,16 +300,28 @@ class Services(object):
     def update_activity(self, params):
         # params['objectId'] = util.get_uuid_24()
         # params['createdAt'] = util.get_now_tuc()
-        params['updatedAt'] = util.get_now_tuc()
-        admin_id = params.get('admin')
-        if admin_id is not None and admin_id != '':
-            admin = models.Admins.objects.get(pid=admin_id)
-            params['admin'] = admin
-        else:
-            params['admin'] = None
-        activity = models.Activities.build(params)
-        activity.save()
-        return {'code': 0, 'data': {'objectId': activity.objectId}, 'msg': '更新成功'}
+        objectId = params.get('objectId')
+        models.Activities.objects. \
+            filter(objectId=objectId).update(
+            content=params.get('content'),
+            title=params.get('title'),
+            isDelete=params.get('isDelete'),
+            isShow=params.get('isShow'),
+            updatedAt=util.get_now_tuc()
+        )
+        return {'code': 0, 'data': {'objectId': objectId}, 'msg': '更新成功'}
+
+        #
+        # params['updatedAt'] = util.get_now_tuc()
+        #
+        # admin_id = params.get('admin')
+        # if admin_id is not None and admin_id != '':
+        #     admin = models.Admins.objects.get(pid=admin_id)
+        #     params['admin'] = admin
+        # else:
+        #     params['admin'] = None
+        # activity = models.Activities.build(params)
+        # activity.save()
 
     def get_activities(self, params):
         isDelete = params.get('isDelete')
@@ -263,7 +333,7 @@ class Services(object):
             Q(isDelete=isDelete), Q(isShow=isShow), Q(admin__pid__contains=admin_pid)
         ).order_by('-createdAt')
         count = activities_all.count()
-        activities = activities_all[(page_index-1)*limit: page_index*limit]
+        activities = activities_all[(page_index - 1) * limit: page_index * limit]
         owner_fields = [f.name for f in models.Activities._meta.get_fields()]
         owner_fields.remove('actR_user_group')
         owner_fields.remove('actjoinlog')
@@ -283,7 +353,6 @@ class Services(object):
             params['admin'] = admin
         else:
             params['admin'] = None
-
 
         activity = models.Activities.build(params)
         activity.save()
@@ -306,14 +375,15 @@ class Services(object):
         ).order_by('-createdAt')
         count = act_registration.count()
         fileds = ['admin__pid', 'admin__type', 'admin__name', 'admin__username',
-                  'userLocationArr__objectId', 'userLocationArr__type', 'userLocationArr__name', 'userLocationArr__username',
+                  'userLocationArr__objectId', 'userLocationArr__type', 'userLocationArr__name',
+                  'userLocationArr__username',
                   'activity__objectId', 'activity__title', 'activity__content',
                   'userGroupArr__objectId', 'userGroupArr__name', 'userGroupArr__username', 'userGroupArr__type',
                   'user__pid', 'user__realname', 'user__username', 'user__sex', 'user__group__name',
-                  'user__mobile', 'user__political',
-                  'objectId'
+                  'user__mobile', 'user__political', 'user__job',
+                  'objectId', 'createdAt'
                   ]
-        act_registration_values = act_registration[(page_index-1)*limit: page_index*limit].values(*fileds)
+        act_registration_values = act_registration[(page_index - 1) * limit: page_index * limit].values(*fileds)
         res = {'code': 0, 'data': list(act_registration_values)}
         res.update(util.make_pagination(count, page_index, limit))
         return res
@@ -345,26 +415,26 @@ class Services(object):
         params['objectId'] = util.get_uuid_24()
         params['createdAt'] = util.get_now_tuc()
         params['updatedAt'] = util.get_now_tuc()
-	try:
+        try:
             params['admin'] = models.Admins.objects.get(pid=params.get('admin'))
-	except:
-	    params['admin'] = None
+        except:
+            params['admin'] = None
 
-	try:
+        try:
             params['userLocationArr'] = models.Admins.objects.get(pid=params.get('userLocationArr'))
-	except:
-	    params['userLocationArr'] = None
+        except:
+            params['userLocationArr'] = None
 
         params['activity'] = models.Activities.objects.get(objectId=params.get('activity'))
         try:
             params['userGroupArr'] = models.Admins.objects.get(pid=params.get('userGroupArr'))
-	except:
-	    params['userGroupArr'] = None
+        except:
+            params['userGroupArr'] = None
 
-	try:
+        try:
             params['user'] = models.Users.objects.get(pid=params.get('user'))
-	except:
-	    params['user'] = None
+        except:
+            params['user'] = None
         if params.get('isInner') is None:
             params['isInner'] = False
         act_registeration = models.ActRegistration.build(params)
@@ -390,7 +460,7 @@ class Services(object):
         params['objectId'] = util.get_uuid_24()
         params['createdAt'] = util.get_now_tuc()
         params['updatedAt'] = util.get_now_tuc()
-        if params['admin'] is not None and  params['admin'] != '':
+        if params['admin'] is not None and params['admin'] != '':
             params['admin'] = models.Admins.objects.get(pid=params.get('admin'))
         else:
             params['admin'] = None
@@ -400,9 +470,12 @@ class Services(object):
         else:
             params['userLocationArr'] = None
 
-        if params['activity'] is not None and params['activity'] != '':
-            params['activity'] = models.Activities.objects.get(objectId=params.get('activity'))
-        else:
+        activity_id = params.get('activity')
+        try:
+            params['activity'] = models.Activities.objects.get(objectId=activity_id)
+        except Exception, e:
+            util.log.error(e.message)
+            traceback.print_exc()
             params['activity'] = None
 
         if params['userGroupArr'] is not None and params['userGroupArr'] != '':
@@ -419,4 +492,9 @@ class Services(object):
             params['isInner'] = False
         act_registeration = models.ActJoinLog.build(params)
         act_registeration.save()
+
+        models.Activities.objects.filter(objectId=activity_id).update(
+            joinnum=F('joinnum')+1
+        )
+        util.log.info('act_join_id:%s join activity_id:%s' % (act_registeration.objectId, activity_id))
         return {'code': 0, 'data': {'objectId': act_registeration.objectId}, 'msg': 'save success'}

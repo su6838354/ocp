@@ -17,7 +17,7 @@
 >	
 			pagination":
 			{
-				"count": 13, // 总数
+				"count": 13, // 总数update_activity
 				"page_index": 2, // 当前页码
 				"page_count": 2, // 页码总数
 				"limit": 10 // 每页数量
@@ -169,6 +169,83 @@
 		  "flagNumber": "16056011"
 		}
 
+####7.修改管理员信息
+	/app1/update_admin
+-	【权限】U
+-	【说明】
+
+	>
+		objectId 和pid不能修改，其他的都可以修改，所以不修改的情况下，原封不动传回去	
+
+-	【参数】
+
+		{
+		  "username": "nrw1500",
+		  "group":  "5704024971cfe4005dc06f9d",
+		  "realname": "\u502a\u777f\u6587",
+		  "objectId": "57071b61128fe10052698894",
+		  "mobile": "18019161988",
+		  "political": "\u56e2\u5458",
+		  "checkin": [
+		    "true",
+		    "2016",
+		    "06",
+		    "06",
+		    "15:39:35"
+		  ],
+		  "idcard": "310230200111161500",
+		  "pid": "57071b601ea49300559f8ec4",
+		  "isShow": "1",
+		  "sex": "\u5973",
+		  "job": "\u5b66\u751f",
+		  "location": "5706319f8ac247004c07af53",
+		  "birth": "2001-11-15T16:00:00Z",
+		  "address": "\u5d07\u660e\u65b0\u5d07\u5357\u8def298-3-403",
+		  "updatedAt": "2016-06-06T07:39:35Z",
+		  "createdAt": "2016-04-08T02:45:53Z",
+		  "flagNumber": "16056011"
+		}
+
+####8.查看报名信息
+	/app1/get_user_checkin
+-	【权限】U
+-	【说明】
+
+	>
+		group 支持模糊查询，传空""的时候表示查找出所有的	
+
+-	【参数】
+		
+		{
+		  "checkin": true, //true 表示签到的
+		  "limit": 10,
+		  "page_index": 1,
+		  "group": "5704024971cfe4005dc06f9d" 
+		}
+
+####9.获取user列表
+	/app1/get_users
+-	【权限】U
+-	【说明】
+
+	>
+		下面参数都支持模糊查询
+		order_by 支持user的所有参数，包括createdAt 等，支持前面加负号倒序
+
+-	【参数】
+		
+		{
+		  "limit": 10,
+		  "page_index": 1,
+		  "group": "5704024971cfe4005dc06f9d",
+		  "flagNumber": "11",
+		  "mobile": "",
+		  "idcard": "",
+		  "realname": "",
+		  "username": "",
+		  "order_by": "-flagNumber"
+		}
+
 
 
 
@@ -266,8 +343,8 @@
 -	【权限】U
 -	【说明】
 
-	>
-		
+	>支持自动更新activity 的joinjum
+	
 
 -	【参数】
 		
@@ -315,15 +392,10 @@
 		
 		{
   		  "objectId": "57396fc11ea4930060f40d93",
-		  "limit": "3",get_act_join_log
-		  "admin": "5704bfd371cfe4005418a086",
-		  "place": "城西社区",
 		  "content": "2月15日参与环境洁净日活动，清扫道路、绿化带，整理自行车棚。",
 		  "title": "环境洁净日",
 		  "isDelete": "0",
-		  "isShow": "1",
-		  "joinnum": 3,
-		  "createdAt": ""
+		  "isShow": "1"
 		}
 
 

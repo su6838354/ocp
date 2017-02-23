@@ -31,3 +31,8 @@ def get_admin(request):
     params = json.loads(request.body)
     res = service.get_admin(params)
     return res
+
+def update_admin(request):
+    params = json.loads(request.body)
+    res = service.update_admin(params)
+    return res
