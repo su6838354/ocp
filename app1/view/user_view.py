@@ -24,9 +24,9 @@ def add_user(request):
     res = service.add_user(body_json)
     return res
 
-def create_user(request):
+def create_user_admin(request):
     params = json.loads(request.body)
-    res = service.create_user(params)
+    res = service.create_user_admin(params)
     return res
 
 

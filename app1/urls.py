@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^get_user$', views.get_user, name='get_user'),
     url(r'^update_user$', views.update_user, name='update_user'),
     url(r'^update_user_checkin$', views.update_user_checkin, name='update_user_checkin'),
-    url(r'^create_user$', views.create_user, name='create_user'),
+    url(r'^create_user_admin$', views.create_user_admin, name='create_user_admin'),
 
     url(r'^get_admins$', views.get_admins, name='get_admins'),
     url(r'^get_admin$', views.get_admin, name='get_admin'),

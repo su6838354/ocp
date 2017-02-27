@@ -23,7 +23,8 @@
 				"limit": 10 // 每页数量
 			}
 		
--	3.权限，cookie等其他功能后续开启，目前服务启动采用python自带的socket和wsgiref，比较脆弱，
+-	3.权限，cookie等其他功能后续开启，目前服务启动采用python自带的socket和wsgiref，比较脆弱
+-	4.部分字段有isShow的，传入isShow='-1'则查询匹配的，不传则查询isShow != '-1'的
 
 
 ##2.返回状态说明
@@ -70,7 +71,8 @@
 		{"isDelete":"0",
 		 "isShow":"1",
 		 "limit":10,
-		 "page_index":1
+		 "page_index":1,
+		"isShow": "1"
 		}
 
 ####3.登录接口
@@ -203,7 +205,8 @@
 		  "checkin": true, //true 表示签到的
 		  "limit": 10,
 		  "page_index": 1,
-		  "group": "5704024971cfe4005dc06f9d" 
+		  "group": "5704024971cfe4005dc06f9d",
+		  "isShow": "1"
 		}
 
 ####9.获取user列表
@@ -226,7 +229,8 @@
 		  "idcard": "",
 		  "realname": "",
 		  "username": "",
-		  "order_by": "-flagNumber"
+		  "order_by": "-flagNumber",
+	   	  "isShow": "1"
 		}
 
 
@@ -245,6 +249,39 @@
 		}
 
 
+####11.创建用户
+{
+  "address": "城桥镇新崇中路57-10号403室",
+  "group": 
+    "5707276571cfe400542f7d10" ,
+  "realname": "孙宇涵",
+  "sex": "男",
+  "ACL": {
+    "*": {
+      "read": true,
+      "write": true
+    }
+  },
+  "idcard": " 32092219930625471X ",
+  "username": "syh5471x ",
+  "checkin": [
+    "false"
+  ],
+  "pid": "57a2f3601532bc0060af3d16",
+  "political": "团员",
+  "isShow": "1",
+  "mobile": "13817277967",
+  "location": 
+    "5707276571cfe400542f7d10"
+  ,
+  "flagNumber": "16022301",
+  "birth": 
+    "1979-12-31T16:00:00.000Z",
+  "job": "崇明团委办公室工作人员",
+  "objectId": "57a2f360128fe10054685677",
+  "createdAt": "2016-08-04T07:48:48.406Z",
+  "updatedAt": "2016-12-24T03:04:25.188Z"
+}
 
 ###活动接口列表
 
@@ -278,7 +315,8 @@
 		"isShow":"1",
  		"limit":10,
 		"page_index":2,
-		"admin":"57071cdda34131004cfea8fe"
+		"admin":"57071cdda34131004cfea8fe",
+	    "isShow": "-1"
 		}
 
 
@@ -411,7 +449,8 @@
 		  "admin":"57071d2ed342d300542437ea", //pid
 		  "page_index": 1,
 		  "limit": 10,
-          "join": false
+          "join": false,
+		  "isShow": "1"
 		}
 
 
@@ -435,20 +474,14 @@
 		}
 
 ####10.更新附加分
-	/app1/get_act_join_log
+	/app1/update_act_join_log_extra
 -	【权限】U
 -	【说明】
-
-	> admin 支持模糊查询
-	> user  支持模糊查询
-	> activity 支持模糊查询		
+	
 
 -	【参数】
 
 		{
-		  "user": "5728a16f49830c00536952a2",
-		  "admin":"5707269b2e958a0057b3e3b0",
-		  "activity": "",
-		  "page_index": 1,
-		  "limit": 10
+		  "objectId": "3e58917cf6ae11e6aff70016",
+		  "extra":10
 		}

@@ -108,8 +108,68 @@ class Services(object):
         user.save()
         return {'code': 0}
 
-    def create_user(self, params):
-        pass
+    def create__user(self, password, username, userRole):
+        objectId = util.get_uuid_24()
+        _user = {
+            "objectId": objectId,
+            "password": password,
+            "username": username,
+            "emailVerified": False,
+            "userRole": userRole,
+            "mobilePhoneVerified": False,
+            "createdAt": util.get_now_tuc(),
+            "updatedAt": util.get_now_tuc()
+        }
+        _user = models._User.build(_user)
+        _user.save()
+        return _user.objectId
+
+    def create_user_admin(self, params):
+        # 创建_user
+        userRole = params.get('userRole', 'Users')
+        username = params.get('username', '123456')
+        password = params.get('password', '123456')
+        _user_objectId = self.create__user(password, username, userRole)
+        objectId = util.get_uuid_24()
+        isShow = params.get('isShow', '1')
+        mobile = params.get('mobile')
+        if userRole == "Admins":
+            admins_params = {
+                'pid': _user_objectId,
+                'objectId': objectId,
+                'isShow': isShow,
+                'pwd': password,
+                'username': username,
+                'name': params.get('name'),
+                'type': params.get('type'),
+                'person': params.get('person'),
+                'address': params.get('address'),
+                'mobile': mobile,
+                'tel': params.get('tel')
+            }
+            admins = models.Admins.build(admins_params)
+            admins.save()
+            return {'code': 0, 'msg': '社区组织创建成功', 'data': {'pid': admins.pid}}
+        else:
+            user_params = {
+                'pid': _user_objectId,
+                'objectId': objectId,
+                'isShow': isShow,
+                'username': username,
+                'realname': params.get('realname', '123456'),
+                'sex': params.get('sex', '男'),
+                'idcard': params.get('idcard', ''),
+                'mobile': mobile,
+                'birth': params.get('birth'),
+                'flagNumber': params.get('flagNumber'),
+                'political': params.get('political')
+            }
+            user = models.Users.build(user_params)
+            user.save()
+            return {'code': 0, 'msg': '普通用户创建成功', 'data': {'pid': user.pid}}
+
+
+
 
     def update_user_checkin(self, params):
         user = params.get('user', '')
