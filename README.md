@@ -106,13 +106,15 @@
 -	【说明】
 
 	> admin 支持模糊查询
-		
+	> user  支持模糊查询
+	> activity 支持模糊查询		
 
 -	【参数】
 
 		{
 		  "user": "5728a16f49830c00536952a2",
 		  "admin":"5707269b2e958a0057b3e3b0",
+		  "activity": "",
 		  "page_index": 1,
 		  "limit": 10
 		}

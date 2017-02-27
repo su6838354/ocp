@@ -484,9 +484,11 @@ class Services(object):
         limit = params.get('limit', 10)
         user_id = params.get('user')
         admin_id = params.get('admin', '')
+	activity_id = params.get('activity', '')
         act_join_logs = models.ActJoinLog.objects.filter(
-            Q(user=user_id),
-            Q(admin__pid__contains=admin_id)
+            Q(user__pid__contains=user_id),
+            Q(admin__pid__contains=admin_id),
+	    Q(activity__object__contains=activity_id)
         ).order_by('-createdAt')
         count = act_join_logs.count()
         act_join_logs_values = act_join_logs.values()
