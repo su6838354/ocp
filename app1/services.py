@@ -114,8 +114,6 @@ class Services(object):
     def update_user_checkin(self, params):
         user = params.get('user', '')
         checkin = params.get('checkin')
-        isShow = params.get('isShow')
-        q_show = self._get_q_show(isShow)
 
         if checkin:
             checkin = json.dumps(checkin)
@@ -123,7 +121,7 @@ class Services(object):
         else:
             checkin = None
 
-        models.Users.objects.filter(Q(pid=user), q_show).update(
+        models.Users.objects.filter(Q(pid=user)).update(
             checkin=checkin
         )
         return {'code': 0, 'msg': '更新成功'}
@@ -394,8 +392,7 @@ class Services(object):
             )
         else:
             activities = models.Activities.objects \
-                .filter(admin__pid=admin, objectId__in=join_activities
-                        )
+                .filter(Q(admin__pid=admin), q_show, Q(objectId__in=join_activities))
         count = activities.count()
         res = {'code': 0, 'data': list(activities.values())}
         res.update(util.make_pagination(count, page_index, limit))

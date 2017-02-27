@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="470fee1e-04cf-4afb-a635-e05f2233941f" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app1/services.py" afterPath="$PROJECT_DIR$/app1/services.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app1/urls.py" afterPath="$PROJECT_DIR$/app1/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app1/view/user_view.py" afterPath="$PROJECT_DIR$/app1/view/user_view.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ocp.log" afterPath="$PROJECT_DIR$/ocp.log" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -75,8 +73,8 @@
           <file leaf-file-name="services.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app1/services.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="95">
-                  <caret line="27" column="12" lean-forward="true" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
+                <state relative-caret-position="141">
+                  <caret line="391" column="13" lean-forward="true" selection-start-line="391" selection-start-column="13" selection-end-line="391" selection-end-column="13" />
                   <folding>
                     <element signature="e#265#276#0" expanded="true" />
                   </folding>
@@ -627,7 +625,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/app1/services.py</url>
-          <line>133</line>
+          <line>131</line>
           <option name="timeStamp" value="71" />
         </line-breakpoint>
       </breakpoints>
@@ -1021,8 +1019,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app1/services.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="27" column="12" lean-forward="true" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
+        <state relative-caret-position="141">
+          <caret line="391" column="13" lean-forward="true" selection-start-line="391" selection-start-column="13" selection-end-line="391" selection-end-column="13" />
           <folding>
             <element signature="e#265#276#0" expanded="true" />
           </folding>
