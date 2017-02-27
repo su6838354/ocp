@@ -50,7 +50,7 @@ class Services(object):
     def get_admins(self, params):
         limit = params.get('limit', 10)
         page_index = params.get('page_index', 1)
-        isShow = params.get('isShow')
+        isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
         admins_all = models.Admins.objects.filter(q_show)
         count = admins_all.count()
@@ -341,7 +341,7 @@ class Services(object):
         idcard = params.get('idcard', '')
         realname = params.get('realname', '')
         username = params.get('username', '')
-        isShow = params.get('isShow')
+        isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
         users = models.Users.objects.filter(
             Q(group__pid__contains=group), Q(flagNumber__contains=flagNumber),
@@ -360,7 +360,7 @@ class Services(object):
         limit = params.get('limit', 10)
         checkin = params.get('checkin')
         group = params.get('group', '')
-        isShow = params.get('isShow')
+        isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
         if checkin is False:
             users = models.Users.objects.filter(
@@ -416,7 +416,7 @@ class Services(object):
         limit = params.get('limit', 10)
         page_index = params.get('page_index', 1)
         admin_pid = params.get('admin', '')
-        isShow = params.get('isShow')
+        isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
         activities_all = models.Activities.objects.filter(
             Q(isDelete=isDelete),
@@ -439,7 +439,7 @@ class Services(object):
         join = params.get('join', False)
         admin = params.get('admin')
         user = params.get('user')
-        isShow = params.get('isShow')
+        isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
 
         join_activities = models.ActJoinLog.objects.filter(
