@@ -83,3 +83,8 @@ def create_act_join_log(request):
     params = json.loads(request.body)
     res = service.create_act_join_log(params)
     return res
+
+def update_act_join_log_extra(request):
+    params = json.loads(request.body)
+    res = service.update_act_join_log_extra(params)
+    return res

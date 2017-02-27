@@ -38,12 +38,14 @@ urlpatterns = [
     url(r'^get_activities_by_join$', views.get_activities_by_join, name='get_activities_by_join'),
     url(r'^update_activity$', views.update_activity, name='update_activity'),
     url(r'^create_activity$', views.create_activity, name='create_activity'),
+
     url(r'^get_act_registration_count$', views.get_act_registration_count, name='get_act_registration_count'),
     url(r'^get_act_registration$', views.get_act_registration, name='get_act_registration'),
     url(r'^create_act_registration$', views.create_act_registration, name='create_act_registration'),
+
     url(r'^get_act_join_log$', views.get_act_join_log, name='get_act_join_log'),
     url(r'^create_act_join_log$', views.create_act_join_log, name='create_act_join_log'),
-
+    url(r'^update_act_join_log_extra$', views.update_act_join_log_extra, name='update_act_join_log_extra'),
     #-------------------------------------------------------------------------------
     url(r'^get_user_checkin$', views.get_user_checkin, name='get_user_checkin'),
     url(r'^get_users$', views.get_users, name='get_users'),

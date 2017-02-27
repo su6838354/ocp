@@ -23,7 +23,6 @@ from django.core.serializers.json import DjangoJSONEncoder
 import traceback
 
 
-
 class Services(object):
     def __index__(self):
         pass
@@ -42,10 +41,14 @@ class Services(object):
         return {'code': 0}
 
     def get_admins(self, params):
+        limit = params.get('limit', 10)
+        page_index = params.get('page_index', 1)
         isShow = params.get('isShow')
-        limit = params.get('limit')
-        page_index = params.get('page_index')
-        admins_all = models.Admins.objects.filter(Q(isShow=isShow))
+        if isShow == '-1':
+            q_show = Q(isShow='-1')
+        else:
+            q_show = ~Q(isShow='-1')
+        admins_all = models.Admins.objects.filter(q_show)
         count = admins_all.count()
         admins = admins_all[(page_index - 1) * limit: page_index * limit]
         # admins_json = serializers.serialize('json', admins)
@@ -104,18 +107,22 @@ class Services(object):
     def update_user_checkin(self, params):
         user = params.get('user', '')
         checkin = params.get('checkin')
+        isShow = params.get('isShow')
+        if isShow == '-1':
+            q_show = Q(isShow='-1')
+        else:
+            q_show = ~Q(isShow='-1')
+
         if checkin:
             checkin = json.dumps(checkin)
             checkin = checkin
         else:
             checkin = None
 
-        models.Users.objects.filter(pid=user).update(
+        models.Users.objects.filter(Q(pid=user), q_show).update(
             checkin=checkin
         )
         return {'code': 0, 'msg': '更新成功'}
-
-
 
     def update_user(self, params):
         user = params
@@ -268,41 +275,50 @@ class Services(object):
         order_by = params.get('order_by', 'flagNumber')
         group = params.get('group', '')
         flagNumber = params.get('flagNumber')
-        mobile=params.get('mobile', '')
-        idcard=params.get('idcard', '')
-        realname=params.get('realname', '')
-        username=params.get('username', '')
+        mobile = params.get('mobile', '')
+        idcard = params.get('idcard', '')
+        realname = params.get('realname', '')
+        username = params.get('username', '')
+        isShow = params.get('isShow')
+        if isShow == '-1':
+            q_show = Q(isShow='-1')
+        else:
+            q_show = ~Q(isShow='-1')
         users = models.Users.objects.filter(
             Q(group__pid__contains=group), Q(flagNumber__contains=flagNumber),
             Q(mobile__contains=mobile), Q(idcard__contains=idcard),
-            Q(realname__contains=realname), Q(username__contains=username)
+            Q(realname__contains=realname), Q(username__contains=username),
+            q_show
         ).order_by(order_by)
         count = users.count()
-        users_list = list(users.values()[(page_index-1)*limit: page_index*limit])
+        users_list = list(users.values()[(page_index - 1) * limit: page_index * limit])
         res = {'code': 0, 'data': users_list}
         res.update(util.make_pagination(count, page_index, limit))
         return res
-
 
     def get_user_checkin(self, params):
         page_index = params.get('page_index', 1)
         limit = params.get('limit', 10)
         checkin = params.get('checkin')
         group = params.get('group', '')
+        isShow = params.get('isShow')
+        if isShow == '-1':
+            q_show = Q(isShow='-1')
+        else:
+            q_show = ~Q(isShow='-1')
         if checkin is False:
             users = models.Users.objects.filter(
-                Q(checkin=None), Q(group__pid__contains=group)
+                Q(checkin=None), Q(group__pid__contains=group), q_show
             )
         else:
             users = models.Users.objects.filter(
-                ~Q(checkin=None), Q(group__pid__contains=group)
+                ~Q(checkin=None), Q(group__pid__contains=group), q_show
             )
         count = users.count()
-        users_list = list(users[(page_index-1)*limit: page_index*limit].values())
+        users_list = list(users[(page_index - 1) * limit: page_index * limit].values())
         res = {'code': 0, 'data': users_list}
         res.update(util.make_pagination(count, page_index, limit))
         return res
-
 
     def get_activity(self, objectId):
         if objectId:
@@ -341,12 +357,17 @@ class Services(object):
 
     def get_activities(self, params):
         isDelete = params.get('isDelete')
-        isShow = params.get('isShow')
-        limit = params.get('limit')
-        page_index = params.get('page_index')
+        limit = params.get('limit', 10)
+        page_index = params.get('page_index', 1)
         admin_pid = params.get('admin', '')
+        isShow = params.get('isShow')
+        if isShow == '-1':
+            q_show = Q(isShow='-1')
+        else:
+            q_show = ~Q(isShow='-1')
         activities_all = models.Activities.objects.filter(
-            Q(isDelete=isDelete), Q(isShow=isShow), Q(admin__pid__contains=admin_pid)
+            Q(isDelete=isDelete),
+            Q(admin__pid__contains=admin_pid), q_show
         ).order_by('-createdAt')
         count = activities_all.count()
         activities = activities_all[(page_index - 1) * limit: page_index * limit]
@@ -365,17 +386,24 @@ class Services(object):
         join = params.get('join', False)
         admin = params.get('admin')
         user = params.get('user')
+        isShow = params.get('isShow')
+        if isShow == '-1':
+            q_show = Q(isShow='-1')
+        else:
+            q_show = ~Q(isShow='-1')
+
         join_activities = models.ActJoinLog.objects.filter(
             Q(admin__pid=admin), Q(user__pid=user)
         ).values_list('activity__objectId', flat=True).distinct()
         if join is False:
-            activities = models.Activities.objects.filter(admin__pid=admin).exclude(
+            activities = models.Activities.objects. \
+                filter(Q(admin__pid=admin), q_show).exclude(
                 objectId__in=join_activities
             )
         else:
-            activities = models.Activities.objects\
+            activities = models.Activities.objects \
                 .filter(admin__pid=admin, objectId__in=join_activities
-            )
+                        )
         count = activities.count()
         res = {'code': 0, 'data': list(activities.values())}
         res.update(util.make_pagination(count, page_index, limit))
@@ -399,6 +427,7 @@ class Services(object):
     def get_act_registration_count(self, params):
         activity_objectId = params.get('activity', '')
         user_pid = params.get('user', '')
+
         act_registration_count = models.ActRegistration.objects.filter(
             Q(activity=activity_objectId), Q(user__pid__contains=user_pid)
         ).count()
@@ -482,16 +511,19 @@ class Services(object):
     def get_act_join_log(self, params):
         page_index = params.get('page_index', 1)
         limit = params.get('limit', 10)
-        user_id = params.get('user')
+        user_id = params.get('user', '')
         admin_id = params.get('admin', '')
-	activity_id = params.get('activity', '')
+        activity_id = params.get('activity', '')
         act_join_logs = models.ActJoinLog.objects.filter(
             Q(user__pid__contains=user_id),
             Q(admin__pid__contains=admin_id),
-	    Q(activity__objectId__contains=activity_id)
+            Q(activity__objectId__contains=activity_id)
         ).order_by('-createdAt')
         count = act_join_logs.count()
-        act_join_logs_values = act_join_logs[(page_index-1)*limit: page_index*limit].values()
+        fileds = ['user__pid', 'user__realname', 'user__group__name',
+                  'user__location__name', 'isInner', 'star', 'extra']
+        act_join_logs_values = act_join_logs[(page_index - 1) * limit: page_index * limit]. \
+            values(*fileds)
         act_join_logs_list = list(act_join_logs_values)
         res = {'code': 0, 'data': act_join_logs_list}
         res.update(util.make_pagination(count, page_index, limit))
@@ -535,7 +567,19 @@ class Services(object):
         act_registeration.save()
 
         models.Activities.objects.filter(objectId=activity_id).update(
-            joinnum=F('joinnum')+1
+            joinnum=F('joinnum') + 1
         )
         util.log.info('act_join_id:%s join activity_id:%s' % (act_registeration.objectId, activity_id))
         return {'code': 0, 'data': {'objectId': act_registeration.objectId}, 'msg': 'save success'}
+
+    def update_act_join_log_extra(self, params):
+        objectId = params.get('objectId')
+        extra = int(params.get('extra', 0))
+        try:
+            models.ActJoinLog.objects.filter(objectId=objectId).update(
+                extra=extra
+            )
+            return {'code': 0, 'msg': '更新附加费成功'}
+
+        except Exception, e:
+            return {'code': 110, 'msg': '不存在该参加活动记录'}

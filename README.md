@@ -100,25 +100,6 @@
 		  "userPwd": "479985"
 		}
 
-####4.获取评星数据
-	/app1/get_act_join_log
--	【权限】U
--	【说明】
-
-	> admin 支持模糊查询
-	> user  支持模糊查询
-	> activity 支持模糊查询		
-
--	【参数】
-
-		{
-		  "user": "5728a16f49830c00536952a2",
-		  "admin":"5707269b2e958a0057b3e3b0",
-		  "activity": "",
-		  "page_index": 1,
-		  "limit": 10
-		}
-
 
 ####5.获取单个管理员详情
 	/app1/get_admin
@@ -434,3 +415,40 @@
 		}
 
 
+####9.获取评星数据
+	/app1/get_act_join_log
+-	【权限】U
+-	【说明】
+
+	> admin 支持模糊查询
+	> user  支持模糊查询
+	> activity 支持模糊查询		
+
+-	【参数】
+
+		{
+		  "user": "5728a16f49830c00536952a2",
+		  "admin":"5707269b2e958a0057b3e3b0",
+		  "activity": "",
+		  "page_index": 1,
+		  "limit": 10
+		}
+
+####10.更新附加分
+	/app1/get_act_join_log
+-	【权限】U
+-	【说明】
+
+	> admin 支持模糊查询
+	> user  支持模糊查询
+	> activity 支持模糊查询		
+
+-	【参数】
+
+		{
+		  "user": "5728a16f49830c00536952a2",
+		  "admin":"5707269b2e958a0057b3e3b0",
+		  "activity": "",
+		  "page_index": 1,
+		  "limit": 10
+		}
