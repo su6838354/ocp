@@ -24,6 +24,12 @@ def add_user(request):
     res = service.add_user(body_json)
     return res
 
+def create_user(request):
+    params = json.loads(request.body)
+    res = service.create_user(params)
+    return res
+
+
 def get_user(request):
     body_json = json.loads(request.body)
     pid = body_json.get('pid')

@@ -27,6 +27,13 @@ class Services(object):
     def __index__(self):
         pass
 
+    def _get_q_show(self, isShow):
+        if isShow == '-1':
+            q_show = ~Q(isShow='-1')
+        else:
+            q_show = Q(isShow=isShow)
+        return q_show
+
     def __check_id_tuple(self, pid_tuple):
         if pid_tuple and len(pid_tuple[0]) == 24:
             return True
@@ -44,10 +51,7 @@ class Services(object):
         limit = params.get('limit', 10)
         page_index = params.get('page_index', 1)
         isShow = params.get('isShow')
-        if isShow == '-1':
-            q_show = Q(isShow='-1')
-        else:
-            q_show = ~Q(isShow='-1')
+        q_show = self._get_q_show(isShow)
         admins_all = models.Admins.objects.filter(q_show)
         count = admins_all.count()
         admins = admins_all[(page_index - 1) * limit: page_index * limit]
@@ -104,14 +108,14 @@ class Services(object):
         user.save()
         return {'code': 0}
 
+    def create_user(self, params):
+        pass
+
     def update_user_checkin(self, params):
         user = params.get('user', '')
         checkin = params.get('checkin')
         isShow = params.get('isShow')
-        if isShow == '-1':
-            q_show = Q(isShow='-1')
-        else:
-            q_show = ~Q(isShow='-1')
+        q_show = self._get_q_show(isShow)
 
         if checkin:
             checkin = json.dumps(checkin)
@@ -280,10 +284,7 @@ class Services(object):
         realname = params.get('realname', '')
         username = params.get('username', '')
         isShow = params.get('isShow')
-        if isShow == '-1':
-            q_show = Q(isShow='-1')
-        else:
-            q_show = ~Q(isShow='-1')
+        q_show = self._get_q_show(isShow)
         users = models.Users.objects.filter(
             Q(group__pid__contains=group), Q(flagNumber__contains=flagNumber),
             Q(mobile__contains=mobile), Q(idcard__contains=idcard),
@@ -302,10 +303,7 @@ class Services(object):
         checkin = params.get('checkin')
         group = params.get('group', '')
         isShow = params.get('isShow')
-        if isShow == '-1':
-            q_show = Q(isShow='-1')
-        else:
-            q_show = ~Q(isShow='-1')
+        q_show = self._get_q_show(isShow)
         if checkin is False:
             users = models.Users.objects.filter(
                 Q(checkin=None), Q(group__pid__contains=group), q_show
@@ -361,10 +359,7 @@ class Services(object):
         page_index = params.get('page_index', 1)
         admin_pid = params.get('admin', '')
         isShow = params.get('isShow')
-        if isShow == '-1':
-            q_show = Q(isShow='-1')
-        else:
-            q_show = ~Q(isShow='-1')
+        q_show = self._get_q_show(isShow)
         activities_all = models.Activities.objects.filter(
             Q(isDelete=isDelete),
             Q(admin__pid__contains=admin_pid), q_show
@@ -387,10 +382,7 @@ class Services(object):
         admin = params.get('admin')
         user = params.get('user')
         isShow = params.get('isShow')
-        if isShow == '-1':
-            q_show = Q(isShow='-1')
-        else:
-            q_show = ~Q(isShow='-1')
+        q_show = self._get_q_show(isShow)
 
         join_activities = models.ActJoinLog.objects.filter(
             Q(admin__pid=admin), Q(user__pid=user)
