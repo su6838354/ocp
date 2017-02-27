@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="470fee1e-04cf-4afb-a635-e05f2233941f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app1/services.py" afterPath="$PROJECT_DIR$/app1/services.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ocp.log" afterPath="$PROJECT_DIR$/ocp.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -72,8 +71,8 @@
           <file leaf-file-name="services.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app1/services.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="187">
-                  <caret line="31" column="36" lean-forward="true" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
+                <state relative-caret-position="256">
+                  <caret line="352" column="39" lean-forward="false" selection-start-line="352" selection-start-column="39" selection-end-line="352" selection-end-column="39" />
                   <folding>
                     <element signature="e#265#276#0" expanded="true" />
                   </folding>
@@ -1053,8 +1052,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app1/services.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="31" column="36" lean-forward="true" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
+        <state relative-caret-position="256">
+          <caret line="352" column="39" lean-forward="false" selection-start-line="352" selection-start-column="39" selection-end-line="352" selection-end-column="39" />
           <folding>
             <element signature="e#265#276#0" expanded="true" />
           </folding>

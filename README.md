@@ -250,38 +250,48 @@
 
 
 ####11.创建用户
-{
-  "address": "城桥镇新崇中路57-10号403室",
-  "group": 
-    "5707276571cfe400542f7d10" ,
-  "realname": "孙宇涵",
-  "sex": "男",
-  "ACL": {
-    "*": {
-      "read": true,
-      "write": true
-    }
-  },
-  "idcard": " 32092219930625471X ",
-  "username": "syh5471x ",
-  "checkin": [
-    "false"
-  ],
-  "pid": "57a2f3601532bc0060af3d16",
-  "political": "团员",
-  "isShow": "1",
-  "mobile": "13817277967",
-  "location": 
-    "5707276571cfe400542f7d10"
-  ,
-  "flagNumber": "16022301",
-  "birth": 
-    "1979-12-31T16:00:00.000Z",
-  "job": "崇明团委办公室工作人员",
-  "objectId": "57a2f360128fe10054685677",
-  "createdAt": "2016-08-04T07:48:48.406Z",
-  "updatedAt": "2016-12-24T03:04:25.188Z"
-}
+	/app1/create_user_admin
+-	【权限】U
+-	【说明】
+
+	>
+
+-	【参数】
+	> user
+		
+		 {
+		  "password": "123456",
+		  "username": "suyuan",
+		  "userRole": "Users",
+		  "isShow": "1",
+		  "username": "suyuan",
+		  "realname": "suyuan",
+		  "sex": "",
+		  "idcard": "",
+		  "mobile": "",
+		  "birth": "2016-04-06T06:09:31.065Z",
+		  "flagNumber": "1",
+		  "political": "1"
+		}
+	
+	>admin
+			
+		 {
+		  "password": "123456",
+		  "username": "suyuan",
+		  "userRole": "Admins",
+		  "isShow": '1',
+          "pwd": "123456",
+          "username": "sy",
+          "name": "sy",
+          "type": "11",
+          "person": "11",
+          "address": "12",
+          "mobile": "11",
+          "tel": "1"
+        }
+
+
 
 ###活动接口列表
 
