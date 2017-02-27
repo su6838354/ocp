@@ -488,10 +488,10 @@ class Services(object):
         act_join_logs = models.ActJoinLog.objects.filter(
             Q(user__pid__contains=user_id),
             Q(admin__pid__contains=admin_id),
-	    Q(activity__object__contains=activity_id)
+	    Q(activity__objectId__contains=activity_id)
         ).order_by('-createdAt')
         count = act_join_logs.count()
-        act_join_logs_values = act_join_logs.values()
+        act_join_logs_values = act_join_logs[(page_index-1)*limit: page_index*limit].values()
         act_join_logs_list = list(act_join_logs_values)
         res = {'code': 0, 'data': act_join_logs_list}
         res.update(util.make_pagination(count, page_index, limit))
