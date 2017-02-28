@@ -339,6 +339,7 @@ class Services(object):
         limit = params.get('limit', 10)
         order_by = params.get('order_by', 'flagNumber')
         group = params.get('group', '')
+        location = params.get('loaction', '')
         flagNumber = params.get('flagNumber')
         mobile = params.get('mobile', '')
         idcard = params.get('idcard', '')
@@ -350,6 +351,7 @@ class Services(object):
             Q(group__pid__contains=group), Q(flagNumber__contains=flagNumber),
             Q(mobile__contains=mobile), Q(idcard__contains=idcard),
             Q(realname__contains=realname), Q(username__contains=username),
+            Q(location__contains=location),
             q_show
         ).order_by(order_by)
         count = users.count()
