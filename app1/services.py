@@ -168,9 +168,6 @@ class Services(object):
             user.save()
             return {'code': 0, 'msg': '普通用户创建成功', 'data': {'pid': user.pid}}
 
-
-
-
     def update_user_checkin(self, params):
         user = params.get('user', '')
         checkin = params.get('checkin')
@@ -449,10 +446,10 @@ class Services(object):
             activities = models.Activities.objects. \
                 filter(Q(admin__pid=admin), q_show).exclude(
                 objectId__in=join_activities
-            )
+            ).order_by('-createdAt')
         else:
             activities = models.Activities.objects \
-                .filter(Q(admin__pid=admin), q_show, Q(objectId__in=join_activities))
+                .filter(Q(admin__pid=admin), q_show, Q(objectId__in=join_activities)).order_by('-createdAt')
         count = activities.count()
         res = {'code': 0, 'data': list(activities.values())}
         res.update(util.make_pagination(count, page_index, limit))
