@@ -570,7 +570,7 @@ class Services(object):
         ).order_by('-createdAt')
         count = act_join_logs.count()
         fileds = ['user__pid', 'user__realname', 'user__group__name',
-                  'user__location__name', 'isInner', 'star', 'extra']
+                  'user__location__name', 'isInner', 'star', 'extra', 'activity__title']
         act_join_logs_values = act_join_logs[(page_index - 1) * limit: page_index * limit]. \
             values(*fileds)
         act_join_logs_list = list(act_join_logs_values)
