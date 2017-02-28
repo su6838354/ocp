@@ -66,13 +66,19 @@
 	/app1/get_admins
 -	【权限】U
 -	【说明】
+	> type  group  loaction
+	> username和name 支持模糊查询
+
 -	【参数】
 
 		{"isDelete":"0",
 		 "isShow":"1",
 		 "limit":10,
 		 "page_index":1,
-		"isShow": "1"
+		"isShow": "1",
+		"type": "group",
+		"username": "",
+		"name": ""
 		}
 
 ####3.登录接口

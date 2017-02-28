@@ -51,8 +51,14 @@ class Services(object):
         limit = params.get('limit', 10)
         page_index = params.get('page_index', 1)
         isShow = params.get('isShow', '-1')
+        type = params.get('type', 'group')
+        username = params.get('username', '')
+        name = params.get('name', '')
+
         q_show = self._get_q_show(isShow)
-        admins_all = models.Admins.objects.filter(q_show)
+        admins_all = models.Admins.objects.filter(
+            q_show, Q(name__contains=name),
+            Q(username__contains=username), Q(type=type))
         count = admins_all.count()
         admins = admins_all[(page_index - 1) * limit: page_index * limit]
         # admins_json = serializers.serialize('json', admins)
