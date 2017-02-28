@@ -446,10 +446,11 @@ class Services(object):
             activities = models.Activities.objects. \
                 filter(Q(admin__pid=admin), q_show).exclude(
                 objectId__in=join_activities
-            ).order_by('-createdAt')
+            ).order_by('createdAt')
         else:
             activities = models.Activities.objects \
-                .filter(Q(admin__pid=admin), q_show, Q(objectId__in=join_activities)).order_by('-createdAt')
+                .filter(Q(admin__pid=admin), q_show,
+                        Q(objectId__in=join_activities)).order_by('createdAt')
         count = activities.count()
         res = {'code': 0, 'data': list(activities.values())}
         res.update(util.make_pagination(count, page_index, limit))
