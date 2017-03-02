@@ -8,15 +8,15 @@ from django.db import models
 # Create your models here.
 class _User(models.Model):
     objectId = models.CharField('主键', max_length=30, primary_key=True)
-    salt = models.CharField(max_length=100, null=True)
-    email = models.CharField(max_length=100, null=True)
-    sessionToken = models.CharField(max_length=100, null=True)
-    password = models.CharField(max_length=200, null=True)
-    username = models.CharField(max_length=30, null=True)
+    salt = models.CharField(max_length=100, default='')
+    email = models.CharField(max_length=100, default='')
+    sessionToken = models.CharField(max_length=100, default='')
+    password = models.CharField(max_length=200, default='')
+    username = models.CharField(max_length=30, default='')
     emailVerified = models.BooleanField(default=False)
-    mobilePhoneNumber = models.CharField(max_length=30, null=True)
-    authData = models.CharField(max_length=100, null=True)
-    userRole = models.CharField(max_length=20, null=True)
+    mobilePhoneNumber = models.CharField(max_length=30, default='')
+    authData = models.CharField(max_length=100, default='')
+    userRole = models.CharField(max_length=20, default='')
     mobilePhoneVerified = models.BooleanField(default=False)
     createdAt = models.DateTimeField(null=True)
     updatedAt = models.DateTimeField(null=True)
@@ -24,16 +24,16 @@ class _User(models.Model):
     @staticmethod
     def build(_user):
         _user = _User(objectId=_user.get('objectId'),
-                      salt=_user.get('salt'),
-                      email=_user.get('email'),
-                      sessionToken=_user.get('sessionToken'),
-                      password=_user.get('password'),
-                      username=_user.get('username'),
-                      emailVerified=_user.get('emailVerified'),
-                      mobilePhoneNumber=_user.get('mobilePhoneNumber'),
-                      authData=_user.get('authData'),
-                      userRole=_user.get('userRole'),
-                      mobilePhoneVerified=_user.get('mobilePhoneVerified'),
+                      salt=_user.get('salt', ''),
+                      email=_user.get('email', ''),
+                      sessionToken=_user.get('sessionToken', ''),
+                      password=_user.get('password', ''),
+                      username=_user.get('username', ''),
+                      emailVerified=_user.get('emailVerified', False),
+                      mobilePhoneNumber=_user.get('mobilePhoneNumber', ''),
+                      authData=_user.get('authData', ''),
+                      userRole=_user.get('userRole', ''),
+                      mobilePhoneVerified=_user.get('mobilePhoneVerified', False),
                       createdAt=_user.get('createdAt'),
                       updatedAt=_user.get('updatedAt')
                       )
@@ -44,21 +44,21 @@ class _User(models.Model):
 """用户表"""
 class Users(models.Model):
     objectId = models.CharField('主键id', max_length=30, unique=True)
-    address = models.CharField('地址', max_length=300, null=True)
+    address = models.CharField('地址', max_length=300, default='')
     group = models.ForeignKey('Admins', related_name='user_group', null=True)
-    realname = models.CharField('真实姓名', max_length=50, null=True)
+    realname = models.CharField('真实姓名', max_length=50, default='')
     sex = models.CharField('性别', max_length=10, null=True)
-    idcard = models.CharField('身份证号', max_length=30, null=True)
-    username = models.CharField('用户名', max_length=100, null=True)
+    idcard = models.CharField('身份证号', max_length=30, default='')
+    username = models.CharField('用户名', max_length=100, default='')
     checkin = models.CharField('bool,签到日期用，隔开', max_length=300, null=True)
     pid = models.CharField('主键', max_length=30, primary_key=True)
-    political = models.CharField('党组织身份', max_length=50, null=True)
-    isShow = models.CharField(max_length=10, null=True)
-    mobile = models.CharField('手机号码', max_length=30, null=True)
+    political = models.CharField('党组织身份', max_length=50, default='')
+    isShow = models.CharField(max_length=10, default='')
+    mobile = models.CharField('手机号码', max_length=30, default='')
     location = models.ForeignKey('Admins', related_name='user_location', null=True)
-    flagNumber = models.CharField('', max_length=20, null=True)
+    flagNumber = models.CharField('', max_length=20, default='')
     birth = models.DateTimeField('生日，年月日', null=True)
-    job = models.CharField('职业', max_length=300, null=True)
+    job = models.CharField('职业', max_length=300, default='')
     createdAt = models.DateTimeField('创建时间', null=True)
     updatedAt = models.DateTimeField('更新时间', null=True)
 
@@ -88,17 +88,17 @@ class Users(models.Model):
 """单位或者社区表"""
 class Admins(models.Model):
     objectId = models.CharField('id', max_length=30, unique=True)
-    address = models.CharField('地址', max_length=300, null=True)
-    person = models.CharField('管理员', max_length=30, null=True)
-    pwd = models.CharField('密码', max_length=20, null=True)
-    name = models.CharField('单位组织名称', max_length=200, null=True)
-    username = models.CharField('用户名', max_length=100, null=True)
-    type = models.CharField('类别，单位or社区', max_length=30, null=True)
-    tel = models.CharField('电话号码', max_length=30, null=True)
+    address = models.CharField('地址', max_length=300, default='')
+    person = models.CharField('管理员', max_length=30, default='')
+    pwd = models.CharField('密码', max_length=20, default='')
+    name = models.CharField('单位组织名称', max_length=200, default='')
+    username = models.CharField('用户名', max_length=100, default='')
+    type = models.CharField('类别，单位or社区', max_length=30, default='')
+    tel = models.CharField('电话号码', max_length=30, default='')
     pid = models.CharField('主键id', max_length=30, primary_key=True)
-    isShow = models.CharField(max_length=5, null=True)
-    mobile = models.CharField(max_length=30, null=True)
-    flagNumber = models.CharField(max_length=100, null=True)
+    isShow = models.CharField(max_length=5, default='')
+    mobile = models.CharField(max_length=30, default='')
+    flagNumber = models.CharField(max_length=100, default='')
     createdAt = models.DateTimeField(null=True)
     updatedAt = models.DateTimeField(null=True)
 

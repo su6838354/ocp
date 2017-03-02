@@ -40,7 +40,7 @@ def get_uuid_24():
 
 
 def get_now_tuc():
-    return datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    return str(datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"))
 
 
 def make_pagination(count, page_index, limit):
