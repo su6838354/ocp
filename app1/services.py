@@ -250,7 +250,15 @@ class Services(object):
             activity['admin'] = admin
         else:
             activity['admin'] = None
+	
+	begin = activity.get('begin')
+	if begin is not None:
+	    activity['begin'] = begin.get('ios')
 
+	end = activity.get('end')
+	if begin is not None:
+	    activity['end'] = end.get('ios')
+	
         activity = models.Activities.build(activity)
         activity.save()
         return {'code': 0}

@@ -69,16 +69,19 @@
                 internalId = setInterval(()=>{
                     var url = file2Url[fileName];
                     var jqxhr = $.post(url, JSON.stringify(item), (res)=>{
-                        console.info(index);
+			let _index = index;
+                        console.info(_index);
                     })
                     .done(()=>{
                         console.info('success');
-                        $('#success_log').append(JSON.stringify(index)+'\r\n')
+			let _index = index;
+                        $('#success_log').append(JSON.stringify(_index)+'\r\n')
                         $('#success_log').scrollTop($('#success_log')[0].scrollHeight);
                     })
                     .fail(()=>{
-                        console.warn(item); 
-                        $('#failed_log').append(JSON.stringify(item)+'\r\n')
+			let _item = item;
+                        console.warn(_item); 
+                        $('#failed_log').append(JSON.stringify(_item)+'\r\n')
                         $('#failed_log').scrollTop($('#failed_log')[0].scrollHeight);
                     });
                     index = index + 1;
