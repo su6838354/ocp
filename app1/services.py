@@ -158,6 +158,11 @@ class Services(object):
         isShow = params.get('isShow', '1')
         mobile = params.get('mobile')
         if userRole == "Admins":
+            has_admin = models.Admins.objects.filter(
+                username=username
+            )
+            if len(list(has_admin)) > 0:
+                return {'code': 113, 'msg': '相同的用户名存在'}
             admins_params = {
                 'pid': _user_objectId,
                 'objectId': objectId,
@@ -175,6 +180,11 @@ class Services(object):
             admins.save()
             return {'code': 0, 'msg': '社区组织创建成功', 'data': {'pid': admins.pid}}
         else:
+            has_user = models.Users.objects.filter(
+                username=username
+            )
+            if len(list(has_user)) > 0:
+                return {'code': 113, 'msg': '相同的用户名存在'}
             user_params = {
                 'pid': _user_objectId,
                 'objectId': objectId,
