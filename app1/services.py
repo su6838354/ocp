@@ -74,7 +74,7 @@ class Services(object):
 	   # Q(name__contains=name),
            # Q(username__contains=username), 
 	   # Q(type=type)
-	)
+	).order_by('createdAt')
         count = admins_all.count()
         admins = admins_all[(page_index - 1) * limit: page_index * limit]
         # admins_json = serializers.serialize('json', admins)
@@ -580,7 +580,9 @@ class Services(object):
                         user_dict['group'] = model_to_dict(models.Admins.objects.get(pid=user_dict['group_id']))
                     if user.get('location_id') is not None:
                         user_dict['location'] = model_to_dict(models.Admins.objects.get(pid=user_dict['location_id']))
-                    user_dict['checkin'] = json.loads(user_dict.get('checkin', {}))
+		    checkin = user_dict.get('checkin')
+		    if checkin is not None:
+                        user_dict['checkin'] = json.loads(checkin)
                     return {'code': 0, 'data': user_dict}
             return {'code': 111, 'data': None, 'msg': '不存在用户'}
         elif user_role == "SuperAdmin":
