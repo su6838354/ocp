@@ -392,24 +392,38 @@ class Services(object):
         group = params.get('group', '')
         if group != '':
             q_list.append(Q(group__pid__contains=group))
+        group__name = params.get('group__name', '')
+
+        if group__name != '':
+            q_list.append(Q(group__name__contains=group__name))
+
         location = params.get('loaction', '')
         if location != '':
             q_list.append(Q(location__pid__contains=location))
+
+        loaction__name = params.get('loaction__name', '')
+        if loaction__name != '':
+            q_list.append(Q(location__name__contains=loaction__name))
+
         flagNumber = params.get('flagNumber', '')
         if flagNumber != '':
             q_list.append(Q(flagNumber__contains=flagNumber))
+
         mobile = params.get('mobile', '')
         if mobile != '':
             q_list.append(Q(mobile__contains=mobile))
         idcard = params.get('idcard', '')
         if idcard != '':
             q_list.append(Q(idcard__contains=idcard))
+
         realname = params.get('realname', '')
         if realname != '':
             q_list.append(Q(realname__contains=realname))
+
         username = params.get('username', '')
         if username != '':
             q_list.append(Q(username__contains=username))
+
         isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
         q_list.append(q_show)
