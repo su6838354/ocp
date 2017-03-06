@@ -237,7 +237,9 @@ yon# ocp
 		  "realname": "",
 		  "username": "",
 		  "order_by": "-flagNumber",
-	   	  "isShow": "1"
+	   	  "isShow": "1",
+		  "group__name": "ss",
+		  "location__name": "ss"
 		}
 
 
