@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="470fee1e-04cf-4afb-a635-e05f2233941f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app1/services.py" afterPath="$PROJECT_DIR$/app1/services.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app1/view/user_view.py" afterPath="$PROJECT_DIR$/app1/view/user_view.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -37,8 +35,8 @@
           <file leaf-file-name="services.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app1/services.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="306">
-                  <caret line="202" column="40" lean-forward="false" selection-start-line="202" selection-start-column="35" selection-end-line="202" selection-end-column="40" />
+                <state relative-caret-position="503">
+                  <caret line="80" column="24" lean-forward="false" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="24" />
                   <folding />
                 </state>
               </provider>
@@ -947,8 +945,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app1/services.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="202" column="40" lean-forward="false" selection-start-line="202" selection-start-column="35" selection-end-line="202" selection-end-column="40" />
+        <state relative-caret-position="503">
+          <caret line="80" column="24" lean-forward="false" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="24" />
           <folding />
         </state>
       </provider>

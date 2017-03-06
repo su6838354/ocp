@@ -50,36 +50,36 @@ class Services(object):
     def get_admins(self, params):
         limit = params.get('limit', 10)
         page_index = params.get('page_index', 1)
-	q_list = []
+        q_list = []
 
         isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
-	q_list.append(q_show)
+        q_list.append(q_show)
 
-	type = params.get('type')
-	if type is not None:
-	    q_list.append(Q(type=type))
-	
+        type = params.get('type')
+        if type is not None:
+            q_list.append(Q(type=type))
+
         username = params.get('username', '')
-	if username == '':
-	    q_list.append(Q(username__contains=username))
+        if username == '':
+            q_list.append(Q(username__contains=username))
 
         name = params.get('name', '')
-	if name == '':
-	    q_list.append(Q(name__contains=name))
+        if name == '':
+            q_list.append(Q(name__contains=name))
 
         admins_all = models.Admins.objects.filter(
-           *q_list
-	   # q_show,
-	   # Q(name__contains=name),
-           # Q(username__contains=username), 
-	   # Q(type=type)
-	).order_by('createdAt')
+            *q_list
+            # q_show,
+            # Q(name__contains=name),
+            # Q(username__contains=username),
+            # Q(type=type)
+        ).order_by('createdAt')
         count = admins_all.count()
         admins = admins_all[(page_index - 1) * limit: page_index * limit]
         # admins_json = serializers.serialize('json', admins)
-	fields = [f.name for f in models.Admins._meta.fields]
-	#fields.append('')
+        fields = [f.name for f in models.Admins._meta.fields]
+        # fields.append('')
         admins_list = list(admins.values(*fields))
         res = {'code': 0, 'data': admins_list}
         res.update(util.make_pagination(count, page_index, limit))
@@ -273,15 +273,15 @@ class Services(object):
             activity['admin'] = admin
         else:
             activity['admin'] = None
-	
-	begin = activity.get('begin')
-	if begin is not None:
-	    activity['begin'] = begin.get('ios')
 
-	end = activity.get('end')
-	if begin is not None:
-	    activity['end'] = end.get('ios')
-	
+        begin = activity.get('begin')
+        if begin is not None:
+            activity['begin'] = begin.get('ios')
+
+        end = activity.get('end')
+        if begin is not None:
+            activity['end'] = end.get('ios')
+
         activity = models.Activities.build(activity)
         activity.save()
         return {'code': 0}
@@ -373,7 +373,7 @@ class Services(object):
     def get_user(self, pid):
         if pid:
             user = models.Users.objects.get(pid=pid)
-	    if user.checkin is not None:
+            if user.checkin is not None:
                 user.checkin = json.loads(user.checkin)
             user_dict = model_to_dict(user)
             if user.group != None:
@@ -388,43 +388,44 @@ class Services(object):
         page_index = params.get('page_index', 1)
         limit = params.get('limit', 10)
         order_by = params.get('order_by', 'flagNumber')
-	q_list = []
+        q_list = []
         group = params.get('group', '')
-	if group != '':
-	    q_list.append(Q(group__pid__contains=group))
+        if group != '':
+            q_list.append(Q(group__pid__contains=group))
         location = params.get('loaction', '')
-	if location != '':
-	    q_list.append(Q(location__pid__contains=location))
+        if location != '':
+            q_list.append(Q(location__pid__contains=location))
         flagNumber = params.get('flagNumber', '')
-	if flagNumber != '':
-	    q_list.append(Q(flagNumber__contains=flagNumber))
+        if flagNumber != '':
+            q_list.append(Q(flagNumber__contains=flagNumber))
         mobile = params.get('mobile', '')
-	if mobile != '':
-	    q_list.append(Q(mobile__contains=mobile))
+        if mobile != '':
+            q_list.append(Q(mobile__contains=mobile))
         idcard = params.get('idcard', '')
-	if idcard != '':
-	    q_list.append(Q(idcard__contains=idcard))
+        if idcard != '':
+            q_list.append(Q(idcard__contains=idcard))
         realname = params.get('realname', '')
-	if realname != '':
-	    q_list.append(Q(realname__contains=realname))
+        if realname != '':
+            q_list.append(Q(realname__contains=realname))
         username = params.get('username', '')
-	if username != '':
-	    q_list.append(Q(username__contains=username))
+        if username != '':
+            q_list.append(Q(username__contains=username))
         isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
-	q_list.append(q_show)
+        q_list.append(q_show)
         users = models.Users.objects.filter(
-	    *q_list
-#            Q(group__pid__contains=group), Q(flagNumber__contains=flagNumber),
-#            Q(mobile__contains=mobile), Q(idcard__contains=idcard),
-#            Q(realname__contains=realname), Q(username__contains=username),
-#            Q(location__pid__contains=location),
-#            q_show
+            *q_list
+            #            Q(group__pid__contains=group), Q(flagNumber__contains=flagNumber),
+            #            Q(mobile__contains=mobile), Q(idcard__contains=idcard),
+            #            Q(realname__contains=realname), Q(username__contains=username),
+            #            Q(location__pid__contains=location),
+            #            q_show
         ).order_by(order_by)
         count = users.count()
-	fields = [f.name for f in models.Users._meta.fields]
-	other_fields = ['group__pid', 'group__address', 'group__name', 'group__username', 'location__pid', 'location__address', 'location__name', 'location__username']
-	fields.extend(other_fields)
+        fields = [f.name for f in models.Users._meta.fields]
+        other_fields = ['group__pid', 'group__address', 'group__name', 'group__username', 'location__pid',
+                        'location__address', 'location__name', 'location__username']
+        fields.extend(other_fields)
         users_list = list(users.values(*fields)[(page_index - 1) * limit: page_index * limit])
         res = {'code': 0, 'data': users_list}
         res.update(util.make_pagination(count, page_index, limit))
@@ -433,23 +434,23 @@ class Services(object):
     def get_user_checkin(self, params):
         page_index = params.get('page_index', 1)
         limit = params.get('limit', 10)
-	q_list = []
+        q_list = []
         checkin = params.get('checkin')
-	if checkin is False:
-      	    q_list.append(Q(checkin=None))
-	else:
-	    q_list.append(~Q(checkin=None))
+        if checkin is False:
+            q_list.append(Q(checkin=None))
+        else:
+            q_list.append(~Q(checkin=None))
 
         group = params.get('group', '')
-	if group != '':
-	    q_list.append(Q(group__pid__contains=group))
+        if group != '':
+            q_list.append(Q(group__pid__contains=group))
 
         isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
-	q_list.append(q_show)
+        q_list.append(q_show)
         users = models.Users.objects.filter(
-	    *q_list
-        #    Q(checkin=None), Q(group__pid__contains=group), q_show
+            *q_list
+            #    Q(checkin=None), Q(group__pid__contains=group), q_show
         )
         count = users.count()
         users_list = list(users[(page_index - 1) * limit: page_index * limit].values())
@@ -603,17 +604,17 @@ class Services(object):
                         user_dict['group'] = model_to_dict(models.Admins.objects.get(pid=user_dict['group_id']))
                     if user.get('location_id') is not None:
                         user_dict['location'] = model_to_dict(models.Admins.objects.get(pid=user_dict['location_id']))
-		    checkin = user_dict.get('checkin')
-		    if checkin is not None:
+                    checkin = user_dict.get('checkin')
+                    if checkin is not None:
                         user_dict['checkin'] = json.loads(checkin)
                     return {'code': 0, 'data': user_dict}
             return {'code': 111, 'data': None, 'msg': '不存在用户'}
         elif user_role == "SuperAdmin":
-	    if user_name == "admin" and user_pwd == "admin":
+            if user_name == "admin" and user_pwd == "admin":
                 return {'code': 0, 'data': {'pid': '001'}, 'msg': 'admin login success'}
             return {'code': 110, 'data': {'pid': '001'}, 'msg': 'admin name or pwd error'}
-	else:
-	    return {'code': 111, 'data': None, 'msg': 'role error'}
+        else:
+            return {'code': 111, 'data': None, 'msg': 'role error'}
 
     def create_act_registration(self, params):
         params['objectId'] = util.get_uuid_24()
