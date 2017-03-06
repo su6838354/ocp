@@ -200,18 +200,18 @@ class Services(object):
             }
             user = models.Users.build(user_params)
 
-	    group_id = params.get('group')
-	    if group_id is not None and group_id!='':
-		group = model.Admins.objects.filter(pid=group_id)
-	        if len(group) > 0:
-		    user.group = group[0]
+            group_id = params.get('group')
+            if group_id is not None and group_id != '':
+                group = models.Admins.objects.filter(pid=group_id)
+                if len(group) > 0:
+                    user.group = group[0]
 
-	    loaction_id = params.get('location')
-	    if location_id is not None and location_id!='':
-		location = model.Admins.objects.filter(pid=location_id)
-	        if len(location) > 0:
-		    user.location = location[0]
-		
+            location_id = params.get('location')
+            if location_id is not None and location_id != '':
+                location = models.Admins.objects.filter(pid=location_id)
+                if len(location) > 0:
+                    user.location = location[0]
+
             user.save()
             return {'code': 0, 'msg': '普通用户创建成功', 'data': {'pid': user.pid}}
 

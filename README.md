@@ -1,4 +1,4 @@
-# ocp
+yon# ocp
 使用django 构建的基础一卡通web项目
 
 ##1.接口说明	
@@ -279,6 +279,8 @@
 		  "birth": "2016-04-06T06:09:31.065Z",
 		  "flagNumber": "1",
 		  "political": "1"
+		  "group": "12334",
+		  "location": "111111"
 		}
 	
 	>admin

@@ -15,6 +15,7 @@
 
 import json
 from app1.services import Services
+import traceback
 
 service = Services()
 
@@ -26,7 +27,10 @@ def add_user(request):
 
 def create_user_admin(request):
     params = json.loads(request.body)
-    res = service.create_user_admin(params)
+    try:
+        res = service.create_user_admin(params)
+    except Exception, e:
+        traceback.print_exc()
     return res
 
 
