@@ -389,21 +389,29 @@ class Services(object):
         limit = params.get('limit', 10)
         order_by = params.get('order_by', 'flagNumber')
         q_list = []
+
+        checkin = params.get('checkin')
+        if checkin is not None:
+            if checkin is False:
+                q_list.append(Q(checkin=None))
+            else:
+                q_list.append(~Q(checkin=None))
+
         group = params.get('group', '')
         if group != '':
             q_list.append(Q(group__pid__contains=group))
-        group__name = params.get('group__name', '')
 
+        group__name = params.get('group__name', '')
         if group__name != '':
             q_list.append(Q(group__name__contains=group__name))
 
-        location = params.get('loaction', '')
+        location = params.get('location', '')
         if location != '':
             q_list.append(Q(location__pid__contains=location))
 
-        loaction__name = params.get('loaction__name', '')
-        if loaction__name != '':
-            q_list.append(Q(location__name__contains=loaction__name))
+        location__name = params.get('location__name', '')
+        if location__name != '':
+            q_list.append(Q(location__name__contains=location__name))
 
         flagNumber = params.get('flagNumber', '')
         if flagNumber != '':
