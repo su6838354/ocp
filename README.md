@@ -223,6 +223,7 @@ yon# ocp
 	>
 		下面参数都支持模糊查询
 		order_by 支持user的所有参数，包括createdAt 等，支持前面加负号倒序
+		checkin 无该参数则不作为条件，false or true
 
 -	【参数】
 		
@@ -239,7 +240,8 @@ yon# ocp
 		  "order_by": "-flagNumber",
 	   	  "isShow": "1",
 		  "group__name": "ss",
-		  "location__name": "ss"
+		  "location__name": "ss",
+		  "checkin": false
 		}
 
 
