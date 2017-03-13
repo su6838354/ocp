@@ -508,3 +508,60 @@ yon# ocp
 		  "objectId": "3e58917cf6ae11e6aff70016",
 		  "extra":10
 		}
+
+
+###Tag接口列表
+
+####1.添加更新Tag
+	/app1/add_update_tag
+-	【权限】U
+-	【说明】
+
+	>id=0的时候为添加，否则为更新
+
+-	【参数】
+
+		{
+		  "id": 1,
+		  "txt": "111nihao苏"
+		}
+
+
+####2.添加更新Tag和activity对应
+	/app1/add_update_activity2tag
+-	【权限】U
+-	【说明】
+
+	>id=0的时候为添加，否则为更新
+
+-	【参数】
+
+		{
+		  "id": 1,
+		  "tag_id": 1,
+		  "activity_id": "11111111111111"
+		}
+
+####3.删除Tag和activity对应
+	/app1/delete_activity2tag
+-	【权限】U
+-	【说明】
+
+-	【参数】
+
+		{
+		  "id": 1
+		}
+
+
+####4.获取tags
+	/app1/get_tags
+-	【权限】U
+-	【说明】
+
+-	【参数】
+
+		{
+		"page_index": 1,
+		"limit": 10
+		}

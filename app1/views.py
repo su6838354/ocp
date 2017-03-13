@@ -7,6 +7,7 @@ from app1.view._user_view import *
 from app1.view.user_view import *
 from app1.view.admin_view import *
 from app1.view.activity_view import *
+from app1.view.tag_view import *
 
 
 

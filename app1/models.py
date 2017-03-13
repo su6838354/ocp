@@ -211,6 +211,20 @@ class ActJoinLog(models.Model):
         return act_join_log
 
 
+class Tag(models.Model):
+    id = models.AutoField(primary_key=True)
+    txt = models.CharField(max_length=300, null=True)
+    createdAt = models.DateTimeField(null=True)
+    updatedAt = models.DateTimeField(null=True)
+
+
+class Activity2Tag(models.Model):
+    id = models.AutoField(primary_key=True)
+    activity_id = models.CharField(max_length=30)
+    tag_id = models.IntegerField()
+    createdAt = models.DateTimeField(null=True)
+    updatedAt = models.DateTimeField(null=True)
+
 
 
 
