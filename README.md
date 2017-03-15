@@ -434,8 +434,9 @@
 		  "content": "2月15日参与环境洁净日活动，清扫道路、绿化带，整理自行车棚。",
 		  "title": "环境洁净日",
 		  "isDelete": "0",
-		  "isShow": "1",gt
-		  "joinnum": 3
+		  "isShow": "1",
+		  "joinnum": 3,
+		  "tag_ids": [1, 2, 3]
 		}
 
 #### 7.更新活动

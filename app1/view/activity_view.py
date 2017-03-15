@@ -54,6 +54,7 @@ def get_activities_by_join(request):
     return res
 
 def create_activity(request):
+    log.info('create_activity: %s' % request.body)
     params = json.loads(request.body)
     res = service.create_activity(params)
     return res

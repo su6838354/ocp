@@ -21,7 +21,7 @@ import json
 from django.db.models import Q
 from django.core.serializers.json import DjangoJSONEncoder
 import traceback
-
+from util import log
 
 class Services(object):
     def __index__(self):
@@ -576,6 +576,14 @@ class Services(object):
 
         activity = models.Activities.build(params)
         activity.save()
+        activity_id = activity.objectId
+        tag_ids = params.get('tag_ids')
+        for tag_id in tag_ids:
+            a2t = models.Activity2Tag(activity_id=activity_id,
+                                      tag_id=tag_id,
+                                      createdAt=util.get_now_tuc(),
+                                      updatedAt=util.get_now_tuc())
+            a2t.save()
         return {'code': 0, 'data': {'objectId': activity.objectId}, 'msg': '保存成功'}
 
     def get_act_registration_count(self, params):
