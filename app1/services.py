@@ -484,6 +484,15 @@ class Services(object):
         if objectId:
             activity = models.Activities.objects.get(objectId=objectId)
             activity_dict = model_to_dict(activity)
+            tags = models.Activity2Tag.objects.filter(activity_id=activity_dict.get('objectId', 0)).values()
+            for tag in tags:
+                try:
+                    tag['txt'] = models.Tag.objects.get(id=tag.get('tag_id')).txt
+                except Exception, e:
+                    log.error(e.message)
+                    traceback.print_exc()
+                    tag['txt'] = ''
+            activity_dict['tags'] = list(tags)
             activity_dict['admin'] = model_to_dict(activity.admin)
             return {'code': 0, 'data': activity_dict}
         else:
@@ -503,12 +512,14 @@ class Services(object):
         )
         tag_ids = params.get('tag_ids', [])
         models.Activity2Tag.objects.filter(activity_id=objectId).delete()
-        for tag_id in tag_ids:
-            a2t = models.Activity2Tag(activity_id=objectId,
-                                      tag_id=tag_id,
-                                      createdAt=util.get_now_tuc(),
-                                      updatedAt=util.get_now_tuc())
-            a2t.save()
+        if params.get('isDelete') not in ['1', 1]:
+            for tag_id in tag_ids:
+                a2t = models.Activity2Tag(activity_id=objectId,
+                                          tag_id=tag_id,
+                                          createdAt=util.get_now_tuc(),
+                                          updatedAt=util.get_now_tuc())
+                a2t.save()
+
         return {'code': 0, 'data': {'objectId': objectId}, 'msg': '更新成功'}
 
         #
@@ -541,6 +552,17 @@ class Services(object):
         owner_fields.remove('actjoinlog')
         fields = owner_fields + ['admin__type', 'admin__objectId', 'admin__name', 'admin__username']
         activities_values = activities.values(*fields)
+        for act in activities_values:
+            tags = models.Activity2Tag.objects.filter(activity_id=act.get('objectId', 0)).values()
+            for tag in tags:
+                try:
+                    tag['txt'] = models.Tag.objects.get(id=tag.get('tag_id')).txt
+                except Exception, e:
+                    log.error(e.message)
+                    traceback.print_exc()
+                    tag['txt'] = ''
+
+            act['tags'] = list(tags)
         res = {'code': 0, 'data': list(activities_values)}
         res.update(util.make_pagination(count, page_index, limit))
         return res
