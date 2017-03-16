@@ -67,7 +67,7 @@ class TagService(object):
         page_index = params.get('page_index', 1)
         limit = params.get('limit', 10)
         txt=params.get('txt', '')
-        tags = models.Tag.objects.filter(isDelete=0, txt__contains=txt)
+        tags = models.Tag.objects.filter(isDelete=0, txt__contains=txt).order_by('-createdAt')
         count = tags.count()
         tag_list = tags[(page_index-1)*limit: page_index*limit]
         tag_list = list(tag_list.values())
