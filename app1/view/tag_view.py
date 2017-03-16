@@ -42,3 +42,9 @@ def get_tags(request):
     params = json.loads(request.body)
     res = service.get_tags(params)
     return res
+
+
+def delete_tags(request):
+    params = json.loads(request.body)
+    res = service.delete_tags(params)
+    return res

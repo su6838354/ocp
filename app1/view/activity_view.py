@@ -14,6 +14,7 @@
 """
 import json
 from app1.services import Services
+from app1.util import log
 
 service = Services()
 

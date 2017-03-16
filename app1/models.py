@@ -214,6 +214,7 @@ class ActJoinLog(models.Model):
 class Tag(models.Model):
     id = models.AutoField(primary_key=True)
     txt = models.CharField(max_length=300, null=True)
+    isDelete = models.IntegerField(default=0)
     createdAt = models.DateTimeField(null=True)
     updatedAt = models.DateTimeField(null=True)
 

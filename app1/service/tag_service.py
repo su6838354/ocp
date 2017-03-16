@@ -24,6 +24,9 @@ class TagService(object):
         tag_id = params.get('id')
         txt = params.get('txt')
         if tag_id == 0:
+            tag = models.Tag.objects.filter(txt=txt)
+            if len(tag) > 0:
+                return {'code': 0, 'msg': '重名标签', 'data': {'tag_txt': txt}}
             tag = models.Tag(txt=txt,
                              createdAt=util.get_now_tuc(),
                              updatedAt=util.get_now_tuc())
@@ -63,10 +66,17 @@ class TagService(object):
     def get_tags(self, params):
         page_index = params.get('page_index', 1)
         limit = params.get('limit', 10)
-        tags = models.Tag.objects.filter()
+        txt=params.get('txt', '')
+        tags = models.Tag.objects.filter(isDelete=0, txt__contains=txt)
         count = tags.count()
         tag_list = tags[(page_index-1)*limit: page_index*limit]
         tag_list = list(tag_list.values())
         res = {'code': 0, 'msg': '获取成功', 'data': tag_list}
         res.update(util.make_pagination(count, page_index, limit))
+        return res
+
+    def delete_tags(self, params):
+        tag_ids = params.get('tag_ids', [])
+        models.Tag.objects.filter(id__in=tag_ids).update(isDelete=1)
+        res = {'code': 0, 'msg': '删除成功', 'data': {'tag_ids': tag_ids}}
         return res

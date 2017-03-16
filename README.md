@@ -1,4 +1,4 @@
-# ocp
+suy	# ocp
 使用django 构建的基础一卡通web项目
 
 ## 1.接口说明	
@@ -454,7 +454,8 @@
 		  "content": "2月15日参与环境洁净日活动，清扫道路、绿化带，整理自行车棚。",
 		  "title": "环境洁净日",
 		  "isDelete": "0",
-		  "isShow": "1"
+		  "isShow": "1",
+          "tag_ids": [1,2,3]
 		}
 
 
@@ -559,10 +560,23 @@
 	/app1/get_tags
 -	【权限】U
 -	【说明】
+	> txt支持模糊查询
 
 -	【参数】
 
 		{
+		"txt": "n",
 		"page_index": 1,
 		"limit": 10
+		}
+
+#### 5.删除tags
+	/app1/delete_tags
+-	【权限】U
+-	【说明】
+
+-	【参数】
+
+		{
+		"tag_ids": [1, 2, 3]
 		}
