@@ -1,4 +1,4 @@
-0suy	# ocp
+# ocp
 使用django 构建的基础一卡通web项目
 
 >使用说明：
