@@ -1,10 +1,10 @@
-suy	# ocp
+0suy	# ocp
 使用django 构建的基础一卡通web项目
 
 ## 1.接口说明	
 -	1.host:139.196.243.147:3390
 -	2.返回结果格式如下，code＝0表示接口正常返回，msg附带接口返回说明，data为接口返回数据
-		
+		get_activities_by_join
 		{
 		"code": 112,
 		"data":{}
@@ -465,7 +465,8 @@ suy	# ocp
 -	【权限】U
 -	【说明】
 
-	>
+	>isShow "-1" 所有值，"0" 只有"0"的值，"1"只有"1"的值
+	>isDelete "0" 或者"1" 
 		
 -	【参数】
 
@@ -475,7 +476,8 @@ suy	# ocp
 		  "page_index": 1,
 		  "limit": 10,
           "join": false,
-		  "isShow": "1"
+		  "isShow": "1",
+		  "isDelete": "0",
 		}
 
 

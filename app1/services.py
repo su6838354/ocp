@@ -174,7 +174,9 @@ class Services(object):
                 'person': params.get('person'),
                 'address': params.get('address'),
                 'mobile': mobile,
-                'tel': params.get('tel')
+                'tel': params.get('tel'),
+                'createdAt': util.get_now_tuc(),
+                'updatedAt': util.get_now_tuc()
             }
             admins = models.Admins.build(admins_params)
             admins.save()
@@ -196,7 +198,9 @@ class Services(object):
                 'mobile': mobile,
                 'birth': params.get('birth'),
                 'flagNumber': params.get('flagNumber'),
-                'political': params.get('political')
+                'political': params.get('political'),
+                'createdAt': util.get_now_tuc(),
+                'updatedAt': util.get_now_tuc()
             }
             user = models.Users.build(user_params)
 
@@ -252,6 +256,8 @@ class Services(object):
             user['checkin'] = checkin
         else:
             user['checkin'] = None
+
+        user['updatedAt'] = util.get_now_tuc()
 
         user = models.Users.build(user)
         user.save()
@@ -575,19 +581,20 @@ class Services(object):
         user = params.get('user')
         isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
+        isDelete = params.get('isDelete', '0')
 
         join_activities = models.ActJoinLog.objects.filter(
             Q(admin__pid=admin), Q(user__pid=user)
         ).values_list('activity__objectId', flat=True).distinct()
         if join is False:
             activities = models.Activities.objects. \
-                filter(Q(admin__pid=admin), q_show).exclude(
+                filter(Q(admin__pid=admin), q_show, isDelete=isDelete).exclude(
                 objectId__in=join_activities
             ).order_by('createdAt')
         else:
             activities = models.Activities.objects \
                 .filter(Q(admin__pid=admin), q_show,
-                        Q(objectId__in=join_activities)).order_by('createdAt')
+                        Q(objectId__in=join_activities), isDelete=isDelete).order_by('createdAt')
         count = activities.count()
         res = {'code': 0, 'data': list(activities.values())}
         res.update(util.make_pagination(count, page_index, limit))
