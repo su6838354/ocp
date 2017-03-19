@@ -45,11 +45,11 @@ class ActivityService(Services):
         isDelete = params.get('isDelete')
         limit = params.get('limit', 10)
         page_index = params.get('page_index', 1)
-        type = params.get('type', 'admin')
+        group_type = params.get('group_type', 'admin')
         admin_pid = params.get('admin', '')
         isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
-        if type == 'admin':
+        if group_type == 'admin':
             activities_all = models.Activities.objects.filter(
                 Q(isDelete=isDelete),
                 Q(admin__pid__contains=admin_pid), q_show

@@ -237,7 +237,8 @@
 	   	  "isShow": "1",
 		  "group__name": "ss",
 		  "location__name": "ss",
-		  "checkin": false
+		  "checkin": false,
+		  "group_type": "admin" // "admin"和原来一样  "all"的时候，一起查出下属的，默认admin
 		}
 
 
@@ -326,7 +327,7 @@
 		limit			单页数量
 		skip			offset偏移
 		admin			支持模糊查询
-		type			查询方式，all为查出自己包括子组织；admin为查询指定admin的，不传的时候，默认值为admin
+		group_type			查询方式，all为查出自己包括子组织；admin为查询指定admin的，不传的时候，默认值为admin
 
 		数据中的admin__name 为外键中的数据，需要关注
 
@@ -339,7 +340,7 @@
 		"page_index":2,
 		"admin":"57071cdda34131004cfea8fe",
 	    "isShow": "-1",
-		"type": "all" // all  admin
+		"group_type": "all" // all  admin
 		}
 
 
