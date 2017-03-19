@@ -23,6 +23,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 import traceback
 from util import log
 
+
 class Services(object):
     def __index__(self):
         pass
@@ -39,63 +40,6 @@ class Services(object):
             return True
         else:
             return False
-
-    """---------------------------------------------------"""
-
-    def add_admin(self, admin):
-        admin = models.Admins.build(admins=admin)
-        admin.save()
-        return {'code': 0}
-
-    def get_admins(self, params):
-        limit = params.get('limit', 10)
-        page_index = params.get('page_index', 1)
-        q_list = []
-
-        isShow = params.get('isShow', '-1')
-        q_show = self._get_q_show(isShow)
-        q_list.append(q_show)
-
-        type = params.get('type')
-        if type is not None:
-            q_list.append(Q(type=type))
-
-        username = params.get('username', '')
-        if username == '':
-            q_list.append(Q(username__contains=username))
-
-        name = params.get('name', '')
-        if name == '':
-            q_list.append(Q(name__contains=name))
-
-        admins_all = models.Admins.objects.filter(
-            *q_list
-            # q_show,
-            # Q(name__contains=name),
-            # Q(username__contains=username),
-            # Q(type=type)
-        ).order_by('createdAt')
-        count = admins_all.count()
-        admins = admins_all[(page_index - 1) * limit: page_index * limit]
-        # admins_json = serializers.serialize('json', admins)
-        fields = [f.name for f in models.Admins._meta.fields]
-        # fields.append('')
-        admins_list = list(admins.values(*fields))
-        res = {'code': 0, 'data': admins_list}
-        res.update(util.make_pagination(count, page_index, limit))
-        return res
-
-    def get_admin(self, params):
-        pid = params.get('pid')
-        admin = models.Admins.objects.get(pid=pid)
-        admin_dict = model_to_dict(admin)
-        return {'code': 0, 'data': admin_dict}
-
-    def update_admin(self, params):
-        params['updatedAt'] = util.get_now_tuc()
-        admin = models.Admins.build(admins=params)
-        admin.save()
-        return {'code': 0, 'data': {'pid': admin.pid}, 'msg': '更新成功'}
 
     """---------------------------------------------------"""
 
@@ -199,6 +143,8 @@ class Services(object):
                 'birth': params.get('birth'),
                 'flagNumber': params.get('flagNumber'),
                 'political': params.get('political'),
+                'group_type': params.get('group_type'),
+                'parentId': params.get('parentId', ''),
                 'createdAt': util.get_now_tuc(),
                 'updatedAt': util.get_now_tuc()
             }
@@ -390,75 +336,6 @@ class Services(object):
         else:
             return {'code': 100, 'data': {}}
 
-    def get_users(self, params):
-        page_index = params.get('page_index', 1)
-        limit = params.get('limit', 10)
-        order_by = params.get('order_by', 'flagNumber')
-        q_list = []
-
-        checkin = params.get('checkin')
-        if checkin is not None:
-            if checkin is False:
-                q_list.append(Q(checkin=None))
-            else:
-                q_list.append(~Q(checkin=None))
-
-        group = params.get('group', '')
-        if group != '':
-            q_list.append(Q(group__pid__contains=group))
-
-        group__name = params.get('group__name', '')
-        if group__name != '':
-            q_list.append(Q(group__name__contains=group__name))
-
-        location = params.get('location', '')
-        if location != '':
-            q_list.append(Q(location__pid__contains=location))
-
-        location__name = params.get('location__name', '')
-        if location__name != '':
-            q_list.append(Q(location__name__contains=location__name))
-
-        flagNumber = params.get('flagNumber', '')
-        if flagNumber != '':
-            q_list.append(Q(flagNumber__contains=flagNumber))
-
-        mobile = params.get('mobile', '')
-        if mobile != '':
-            q_list.append(Q(mobile__contains=mobile))
-        idcard = params.get('idcard', '')
-        if idcard != '':
-            q_list.append(Q(idcard__contains=idcard))
-
-        realname = params.get('realname', '')
-        if realname != '':
-            q_list.append(Q(realname__contains=realname))
-
-        username = params.get('username', '')
-        if username != '':
-            q_list.append(Q(username__contains=username))
-
-        isShow = params.get('isShow', '-1')
-        q_show = self._get_q_show(isShow)
-        q_list.append(q_show)
-        users = models.Users.objects.filter(
-            *q_list
-            #            Q(group__pid__contains=group), Q(flagNumber__contains=flagNumber),
-            #            Q(mobile__contains=mobile), Q(idcard__contains=idcard),
-            #            Q(realname__contains=realname), Q(username__contains=username),
-            #            Q(location__pid__contains=location),
-            #            q_show
-        ).order_by(order_by)
-        count = users.count()
-        fields = [f.name for f in models.Users._meta.fields]
-        other_fields = ['group__pid', 'group__address', 'group__name', 'group__username', 'location__pid',
-                        'location__address', 'location__name', 'location__username']
-        fields.extend(other_fields)
-        users_list = list(users.values(*fields)[(page_index - 1) * limit: page_index * limit])
-        res = {'code': 0, 'data': users_list}
-        res.update(util.make_pagination(count, page_index, limit))
-        return res
-
     def get_user_checkin(self, params):
         page_index = params.get('page_index', 1)
         limit = params.get('limit', 10)
@@ -486,23 +363,6 @@ class Services(object):
         res.update(util.make_pagination(count, page_index, limit))
         return res
 
-    def get_activity(self, objectId):
-        if objectId:
-            activity = models.Activities.objects.get(objectId=objectId)
-            activity_dict = model_to_dict(activity)
-            tags = models.Activity2Tag.objects.filter(activity_id=activity_dict.get('objectId', 0)).values()
-            for tag in tags:
-                try:
-                    tag['txt'] = models.Tag.objects.get(id=tag.get('tag_id')).txt
-                except Exception, e:
-                    log.error(e.message)
-                    traceback.print_exc()
-                    tag['txt'] = ''
-            activity_dict['tags'] = list(tags)
-            activity_dict['admin'] = model_to_dict(activity.admin)
-            return {'code': 0, 'data': activity_dict}
-        else:
-            return {'code': 100, 'data': {}}
 
     def update_activity(self, params):
         # params['objectId'] = util.get_uuid_24()
@@ -514,8 +374,8 @@ class Services(object):
             title=params.get('title'),
             isDelete=params.get('isDelete'),
             isShow=params.get('isShow'),
-	    limit=params.get('limit', ''),
-	    place=params.get('place', ''),
+            limit=params.get('limit', ''),
+            place=params.get('place', ''),
             updatedAt=util.get_now_tuc()
         )
         tag_ids = params.get('tag_ids', [])
@@ -541,39 +401,6 @@ class Services(object):
         #     params['admin'] = None
         # activity = models.Activities.build(params)
         # activity.save()
-
-    def get_activities(self, params):
-        isDelete = params.get('isDelete')
-        limit = params.get('limit', 10)
-        page_index = params.get('page_index', 1)
-        admin_pid = params.get('admin', '')
-        isShow = params.get('isShow', '-1')
-        q_show = self._get_q_show(isShow)
-        activities_all = models.Activities.objects.filter(
-            Q(isDelete=isDelete),
-            Q(admin__pid__contains=admin_pid), q_show
-        ).order_by('-createdAt')
-        count = activities_all.count()
-        activities = activities_all[(page_index - 1) * limit: page_index * limit]
-        owner_fields = [f.name for f in models.Activities._meta.get_fields()]
-        owner_fields.remove('actR_user_group')
-        owner_fields.remove('actjoinlog')
-        fields = owner_fields + ['admin__type', 'admin__objectId', 'admin__name', 'admin__username']
-        activities_values = activities.values(*fields)
-        for act in activities_values:
-            tags = models.Activity2Tag.objects.filter(activity_id=act.get('objectId', 0)).values()
-            for tag in tags:
-                try:
-                    tag['txt'] = models.Tag.objects.get(id=tag.get('tag_id')).txt
-                except Exception, e:
-                    log.error(e.message)
-                    traceback.print_exc()
-                    tag['txt'] = ''
-
-            act['tags'] = list(tags)
-        res = {'code': 0, 'data': list(activities_values)}
-        res.update(util.make_pagination(count, page_index, limit))
-        return res
 
     def get_activities_by_join(self, params):
         page_index = params.get('page_index', 1)

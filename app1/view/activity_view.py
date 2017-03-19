@@ -15,8 +15,9 @@
 import json
 from app1.services import Services
 from app1.util import log
+from app1.service.activity_service import ActivityService
 
-service = Services()
+service = ActivityService()
 
 def add_activity(request):
     body_json = json.loads(request.body)

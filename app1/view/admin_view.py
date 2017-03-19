@@ -14,7 +14,9 @@
 """
 import json
 from app1.services import Services
-service = Services()
+from app1.service.admin_service import AdminService
+
+service = AdminService()
 
 
 def add_admin(request):
@@ -22,15 +24,18 @@ def add_admin(request):
     res = service.add_admin(body_json)
     return res
 
+
 def get_admins(request):
     params = json.loads(request.body)
     res = service.get_admins(params)
     return res
 
+
 def get_admin(request):
     params = json.loads(request.body)
     res = service.get_admin(params)
     return res
+
 
 def update_admin(request):
     params = json.loads(request.body)

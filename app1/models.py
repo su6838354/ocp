@@ -98,7 +98,9 @@ class Admins(models.Model):
     pid = models.CharField('主键id', max_length=30, primary_key=True)
     isShow = models.CharField(max_length=5, default='', null=True)
     mobile = models.CharField(max_length=30, default='', null=True)
-    flagNumber = models.CharField(max_length=100, default='', null=True)
+    flagNumber = models.CharField(max_length=100, default='', null=True),
+    group_type = models.IntegerField(default=0)
+    parentId = models.CharField(max_length=30, default='')
     createdAt = models.DateTimeField(null=True)
     updatedAt = models.DateTimeField(null=True)
 
@@ -116,9 +118,12 @@ class Admins(models.Model):
                       isShow=admins.get('isShow'),
                       mobile=admins.get('mobile'),
                       flagNumber=admins.get('flagNumber'),
+                      group_type=admins.get('group_type', 0),
+                      parentId=admins.get('parentId', ''),
                       createdAt=admins.get('createdAt'),
                       updatedAt=admins.get('updatedAt')
                       )
+
 
 """活动表"""
 class Activities(models.Model):

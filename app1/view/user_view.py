@@ -14,10 +14,10 @@
 """
 
 import json
-from app1.services import Services
+from app1.service.user_service import UserService
 import traceback
 
-service = Services()
+service = UserService()
 
 
 def add_user(request):

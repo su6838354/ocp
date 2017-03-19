@@ -1,6 +1,11 @@
 0suy	# ocp
 使用django 构建的基础一卡通web项目
 
+>使用说明：
+
+	 执行 pip install -r requirement.txt 安装依赖包		  
+	 执行run.sh,本地接口地址换成 127.0.0.1:3390
+
 ## 1.接口说明	
 -	1.host:139.196.243.147:3390
 -	2.返回结果格式如下，code＝0表示接口正常返回，msg附带接口返回说明，data为接口返回数据
@@ -160,41 +165,32 @@
 		  "flagNumber": "16056011"
 		}
 
-#### 7.修改管理员信息
+#### 7.修改单位组织信息
 	/app1/update_admin
 -	【权限】U
 -	【说明】
 
+	>和pid不能修改，其他的都可以修改，所以不修改的情况下，原封不动传回去	  
+	>group_type :
 	>
-		objectId 和pid不能修改，其他的都可以修改，所以不修改的情况下，原封不动传回去	
+		0		默认值   
+	    1  		乡镇单位
+		2		乡镇下属单位
 
 -	【参数】
 
 		{
-		  "username": "nrw1500",
-		  "group":  "5704024971cfe4005dc06f9d",
-		  "realname": "\u502a\u777f\u6587",
-		  "objectId": "57071b61128fe10052698894",
-		  "mobile": "18019161988",
-		  "political": "\u56e2\u5458",
-		  "checkin": [
-		    "true",
-		    "2016",
-		    "06",
-		    "06",
-		    "15:39:35"
-		  ],
-		  "idcard": "310230200111161500",
 		  "pid": "57071b601ea49300559f8ec4",
-		  "isShow": "1",
-		  "sex": "\u5973",
-		  "job": "\u5b66\u751f",
-		  "location": "5706319f8ac247004c07af53",
-		  "birth": "2001-11-15T16:00:00Z",
 		  "address": "\u5d07\u660e\u65b0\u5d07\u5357\u8def298-3-403",
-		  "updatedAt": "2016-06-06T07:39:35Z",
-		  "createdAt": "2016-04-08T02:45:53Z",
-		  "flagNumber": "16056011"
+		  "person": "",
+		  "name": "\u502a\u777f\u6587",
+		  "username": "nrw1500",
+		  "tel": "111"
+		  "isShow": "1",
+		  "mobile": "18019161988",
+		  "flagNumber": "16056011",
+		  "group_type": 0,
+		  "parentId": "98998888"
 		}
 
 #### 8.查看报名信息
@@ -265,7 +261,7 @@
 -	【权限】U
 -	【说明】
 
-	>
+	>group_type 查看其他接口定义
 
 -	【参数】
 	> user
@@ -301,7 +297,9 @@
           "person": "11",
           "address": "12",
           "mobile": "11",
-          "tel": "1"
+          "tel": "1",
+		  "group_type": 0,
+		  "parentId": "98998888" //自己的admin_pid
         }
 
 
@@ -328,6 +326,7 @@
 		limit			单页数量
 		skip			offset偏移
 		admin			支持模糊查询
+		type			查询方式，all为查出自己包括子组织；admin为查询指定admin的，不传的时候，默认值为admin
 
 		数据中的admin__name 为外键中的数据，需要关注
 
@@ -336,10 +335,11 @@
 		{
 		"isDelete":"0",
 		"isShow":"1",
- 		"limit":10,
+		"limit":10,
 		"page_index":2,
 		"admin":"57071cdda34131004cfea8fe",
-	    "isShow": "-1"
+	    "isShow": "-1",
+		"type": "all" // all  admin
 		}
 
 
