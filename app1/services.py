@@ -514,6 +514,8 @@ class Services(object):
             title=params.get('title'),
             isDelete=params.get('isDelete'),
             isShow=params.get('isShow'),
+	    limit=params.get('limit', ''),
+	    place=params.get('place', ''),
             updatedAt=util.get_now_tuc()
         )
         tag_ids = params.get('tag_ids', [])

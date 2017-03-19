@@ -455,6 +455,8 @@
 		  "title": "环境洁净日",
 		  "isDelete": "0",
 		  "isShow": "1",
+		  "place": "",
+		  "limit": "",
           "tag_ids": [1,2,3]
 		}
 
