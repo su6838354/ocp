@@ -568,13 +568,15 @@
 -	【权限】U
 -	【说明】
 	> txt支持模糊查询
+	> isDelete 不传递时，默认为0
 
 -	【参数】
 
 		{
 		"txt": "n",
 		"page_index": 1,
-		"limit": 10
+		"limit": 10,
+		"isDelete": 0
 		}
 
 #### 5.删除tags
