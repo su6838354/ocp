@@ -57,7 +57,7 @@ class AdminService(Services):
             # Q(name__contains=name),
             # Q(username__contains=username),
             # Q(type=type)
-        ).order_by('createdAt')
+        ).order_by('-createdAt')
         count = admins_all.count()
         admins = admins_all[(page_index - 1) * limit: page_index * limit]
         # admins_json = serializers.serialize('json', admins)
