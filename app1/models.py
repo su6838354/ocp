@@ -56,7 +56,7 @@ class Users(models.Model):
     isShow = models.CharField(max_length=10, default='', null=True)
     mobile = models.CharField('手机号码', max_length=30, default='', null=True)
     location = models.ForeignKey('Admins', related_name='user_location', null=True)
-    flagNumber = models.CharField('', max_length=20, default='', null=True)
+    flagNumber = models.CharField('flagNumber', max_length=20, default='', null=True)
     birth = models.DateTimeField('生日，年月日', null=True)
     job = models.CharField('职业', max_length=300, default='', null=True)
     createdAt = models.DateTimeField('创建时间', null=True)
@@ -98,7 +98,7 @@ class Admins(models.Model):
     pid = models.CharField('主键id', max_length=30, primary_key=True)
     isShow = models.CharField(max_length=5, default='', null=True)
     mobile = models.CharField(max_length=30, default='', null=True)
-    flagNumber = models.CharField(max_length=100, default='', null=True),
+    flagNumber = models.CharField(max_length=100, default='', null=True)
     group_type = models.IntegerField(default=0)
     parentId = models.CharField(max_length=30, default='')
     createdAt = models.DateTimeField(null=True)
@@ -117,7 +117,7 @@ class Admins(models.Model):
                       pid=admins.get('pid'),
                       isShow=admins.get('isShow'),
                       mobile=admins.get('mobile'),
-                      flagNumber=admins.get('flagNumber'),
+                      flagNumber=admins.get('flagNumber', ''),
                       group_type=admins.get('group_type', 0),
                       parentId=admins.get('parentId', ''),
                       createdAt=admins.get('createdAt'),

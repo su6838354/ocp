@@ -31,6 +31,7 @@ def create_user_admin(request):
         res = service.create_user_admin(params)
     except Exception, e:
         traceback.print_exc()
+        res = {'code': 110, 'msg': e.message}
     return res
 
 

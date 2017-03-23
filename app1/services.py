@@ -120,7 +120,8 @@ class Services(object):
                 'mobile': mobile,
                 'tel': params.get('tel'),
                 'createdAt': util.get_now_tuc(),
-                'updatedAt': util.get_now_tuc()
+                'updatedAt': util.get_now_tuc(),
+                'flagNumber': params.get('flagNumber', '')
             }
             admins = models.Admins.build(admins_params)
             admins.save()
