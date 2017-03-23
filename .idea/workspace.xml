@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="470fee1e-04cf-4afb-a635-e05f2233941f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app1/service/admin_service.py" afterPath="$PROJECT_DIR$/app1/service/admin_service.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app1/services.py" afterPath="$PROJECT_DIR$/app1/services.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -42,7 +42,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="admin_view.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="admin_view.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app1/view/admin_view.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="245">
@@ -57,8 +57,8 @@
           <file leaf-file-name="user_view.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app1/view/user_view.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="406">
-                  <caret line="62" column="22" lean-forward="false" selection-start-line="62" selection-start-column="22" selection-end-line="62" selection-end-column="22" />
+                <state relative-caret-position="222">
+                  <caret line="30" column="30" lean-forward="false" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
                   <folding>
                     <element signature="e#268#279#0" expanded="true" />
                   </folding>
@@ -78,11 +78,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="services.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="services.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app1/services.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="255">
-                  <caret line="129" column="51" lean-forward="false" selection-start-line="129" selection-start-column="51" selection-end-line="129" selection-end-column="51" />
+                <state relative-caret-position="324">
+                  <caret line="124" column="57" lean-forward="true" selection-start-line="124" selection-start-column="57" selection-end-line="124" selection-end-column="57" />
                   <folding>
                     <element signature="e#265#276#0" expanded="true" />
                   </folding>
@@ -113,8 +113,8 @@
           <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app1/models.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-573">
-                  <caret line="44" column="6" lean-forward="false" selection-start-line="44" selection-start-column="6" selection-end-line="44" selection-end-column="6" />
+                <state relative-caret-position="186">
+                  <caret line="120" column="50" lean-forward="true" selection-start-line="120" selection-start-column="50" selection-end-line="120" selection-end-column="50" />
                   <folding />
                 </state>
               </provider>
@@ -222,7 +222,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>tag_ids</find>
       <find>delete()</find>
       <find>delete</find>
       <find>a2t = models.Activity2Tag</find>
@@ -250,8 +249,9 @@
       <find>dels.Users.objects</find>
       <find>IntegerField</find>
       <find>Admins.</find>
-      <find>isSHow</find>
       <find>Fla</find>
+      <find>isSHow</find>
+      <find>group_type</find>
     </findStrings>
     <replaceStrings>
       <replace>(u'</replace>
@@ -297,10 +297,10 @@
         <option value="$PROJECT_DIR$/app1/view/admin_view.py" />
         <option value="$PROJECT_DIR$/app1/view/user_view.py" />
         <option value="$PROJECT_DIR$/app1/service/user_service.py" />
-        <option value="$PROJECT_DIR$/app1/services.py" />
         <option value="$PROJECT_DIR$/app1/migrations/0017_auto_20170323_2310.py" />
         <option value="$PROJECT_DIR$/app1/service/tag_service.py" />
         <option value="$PROJECT_DIR$/app1/service/admin_service.py" />
+        <option value="$PROJECT_DIR$/app1/services.py" />
       </list>
     </option>
   </component>
@@ -1031,39 +1031,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app1/view/user_view.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="62" column="22" lean-forward="false" selection-start-line="62" selection-start-column="22" selection-end-line="62" selection-end-column="22" />
-          <folding>
-            <element signature="e#268#279#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app1/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-573">
-          <caret line="44" column="6" lean-forward="false" selection-start-line="44" selection-start-column="6" selection-end-line="44" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app1/service/user_service.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="385">
           <caret line="102" column="10" lean-forward="false" selection-start-line="102" selection-start-column="10" selection-end-line="102" selection-end-column="10" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app1/services.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="129" column="51" lean-forward="false" selection-start-line="129" selection-start-column="51" selection-end-line="129" selection-end-column="51" />
-          <folding>
-            <element signature="e#265#276#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1083,6 +1055,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app1/service/admin_service.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="62" column="61" lean-forward="true" selection-start-line="62" selection-start-column="61" selection-end-line="62" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app1/view/admin_view.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="245">
@@ -1093,11 +1073,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app1/service/admin_service.py">
+    <entry file="file://$PROJECT_DIR$/app1/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="62" column="61" lean-forward="true" selection-start-line="62" selection-start-column="61" selection-end-line="62" selection-end-column="61" />
+        <state relative-caret-position="186">
+          <caret line="120" column="50" lean-forward="true" selection-start-line="120" selection-start-column="50" selection-end-line="120" selection-end-column="50" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app1/view/user_view.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="30" column="30" lean-forward="false" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
+          <folding>
+            <element signature="e#268#279#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app1/services.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="124" column="57" lean-forward="true" selection-start-line="124" selection-start-column="57" selection-end-line="124" selection-end-column="57" />
+          <folding>
+            <element signature="e#265#276#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

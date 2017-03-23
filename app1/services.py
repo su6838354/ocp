@@ -121,7 +121,8 @@ class Services(object):
                 'tel': params.get('tel'),
                 'createdAt': util.get_now_tuc(),
                 'updatedAt': util.get_now_tuc(),
-                'flagNumber': params.get('flagNumber', '')
+                'flagNumber': params.get('flagNumber', ''),
+                'group_type': params.get('group_type', 0)
             }
             admins = models.Admins.build(admins_params)
             admins.save()
