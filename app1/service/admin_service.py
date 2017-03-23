@@ -39,12 +39,16 @@ class AdminService(Services):
             q_list.append(Q(type=type))
 
         username = params.get('username', '')
-        if username == '':
+        if username != '':
             q_list.append(Q(username__contains=username))
 
         name = params.get('name', '')
-        if name == '':
+        if name != '':
             q_list.append(Q(name__contains=name))
+
+        parentId = params.get('parentId')
+        if parentId is not None:
+            q_list.append(Q(parentId=parentId))
 
         admins_all = models.Admins.objects.filter(
             *q_list

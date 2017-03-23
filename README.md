@@ -73,6 +73,7 @@
 -	【说明】
 	> type  group  loaction
 	> username和name 支持模糊查询
+	> parentId 无该参数时，不为限制条件
 
 -	【参数】
 
@@ -83,7 +84,8 @@
 		"isShow": "1",
 		"type": "group",
 		"username": "",
-		"name": ""
+		"name": "",
+		"parentId": ''
 		}
 
 #### 3.登录接口
