@@ -55,7 +55,7 @@ class ActivityService(Services):
                 Q(admin__pid__contains=admin_pid), q_show
             ).order_by('-createdAt')
         else:
-            child_pids = models.Admins.objects.filter(parentId=admin_pid).values_list('pid', flat=True)
+            child_pids = models.Admins.objects.filter(parentId=admin_pid, isDelete=0).values_list('pid', flat=True)
             child_pids = list(child_pids)
             child_pids.append(admin_pid)
             activities_all = models.Activities.objects.filter(

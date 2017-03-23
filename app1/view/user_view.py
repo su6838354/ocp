@@ -62,3 +62,8 @@ def get_users(request):
     params = json.loads(request.body)
     res = service.get_users(params)
     return res
+
+def delete_user(request):
+    params = json.loads(request.body)
+    res = service.delete_user(params)
+    return res

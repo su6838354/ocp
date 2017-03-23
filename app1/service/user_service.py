@@ -39,7 +39,7 @@ class UserService(Services):
             if group_type == 'admin':
                     q_list.append(Q(group__pid__contains=group))
             elif group_type == 'all':
-                child_pids = models.Admins.objects.filter(parentId=group).values_list('pid', flat=True)
+                child_pids = models.Admins.objects.filter(parentId=group, isDelete=1).values_list('pid', flat=True)
                 child_pids = list(child_pids)
                 child_pids.append(group)
                 q_list.append(Q(group__pid__in=child_pids))
@@ -97,3 +97,8 @@ class UserService(Services):
         res = {'code': 0, 'data': users_list}
         res.update(util.make_pagination(count, page_index, limit))
         return res
+
+    def delete_user(self, params):
+        pid = params.get('pid', '')
+        models.Users.objects.filter(pid=pid).update(isDelete=1)
+        return {'code': 0, 'msg': '删除成功', 'data': {'pid': pid}}

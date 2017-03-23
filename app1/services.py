@@ -103,7 +103,7 @@ class Services(object):
         mobile = params.get('mobile')
         if userRole == "Admins":
             has_admin = models.Admins.objects.filter(
-                username=username
+                username=username, isDelete=0
             )
             if len(list(has_admin)) > 0:
                 return {'code': 113, 'msg': '相同的用户名存在'}
@@ -153,13 +153,13 @@ class Services(object):
 
             group_id = params.get('group')
             if group_id is not None and group_id != '':
-                group = models.Admins.objects.filter(pid=group_id)
+                group = models.Admins.objects.filter(pid=group_id, isDelete=0)
                 if len(group) > 0:
                     user.group = group[0]
 
             location_id = params.get('location')
             if location_id is not None and location_id != '':
-                location = models.Admins.objects.filter(pid=location_id)
+                location = models.Admins.objects.filter(pid=location_id, isDelete=0)
                 if len(location) > 0:
                     user.location = location[0]
 
@@ -354,6 +354,8 @@ class Services(object):
         isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
         q_list.append(q_show)
+
+        q_list.append(Q(isDelete=0))
         users = models.Users.objects.filter(
             *q_list
             #    Q(checkin=None), Q(group__pid__contains=group), q_show
@@ -486,14 +488,14 @@ class Services(object):
 
     def login(self, user_role, user_name, user_pwd):
         if user_role == "Admins":
-            admins = models.Admins.objects.filter(Q(username=user_name), Q(pwd=user_pwd)).values()
+            admins = models.Admins.objects.filter(Q(username=user_name), Q(pwd=user_pwd), Q(isDelete=0)).values()
             if len(list(admins)) == 1:
                 admin = admins[0]
                 return {'code': 0, 'data': admin}
             return {'code': 111, 'data': None, 'msg': '不存在管理员'}
         elif user_role == "Users":
             if user_pwd == '123456':
-                users = models.Users.objects.filter(Q(username=user_name)).values()
+                users = models.Users.objects.filter(Q(username=user_name), Q(isDelete=0)).values()
                 if len(list(users)) == 1:
                     user = users.first()
                     user_dict = user

@@ -50,6 +50,7 @@ class AdminService(Services):
         if parentId is not None:
             q_list.append(Q(parentId=parentId))
 
+        q_list.append(Q(isDelete=0))
         admins_all = models.Admins.objects.filter(
             *q_list
             # q_show,
@@ -81,7 +82,7 @@ class AdminService(Services):
             name=params.get('name'),
             username=params.get('username', ''),
             tel=params.get('tel', ''),
-            isShow=params.get('isShow', ''),
+            isShow=params.get('isShow', 1),
             mobile=params.get('mobile', ''),
             flagNumber=params.get('flagNumber', ''),
             group_type=params.get('group_type', 0),
@@ -89,3 +90,8 @@ class AdminService(Services):
             updatedAt=util.get_now_tuc()
         )
         return {'code': 0, 'data': {'pid': pid}, 'msg': '更新成功'}
+
+    def delete_admin(self, params):
+        pid = params.get('pid', '')
+        models.Admins.objects.filter(pid=pid).update(isDelete=1)
+        return {'code': 0, 'msg': '删除成功', 'data': {'pid': pid}}

@@ -41,3 +41,8 @@ def update_admin(request):
     params = json.loads(request.body)
     res = service.update_admin(params)
     return res
+
+def delete_admin(request):
+    params = json.loads(request.body)
+    res = service.delete_admin(params)
+    return res

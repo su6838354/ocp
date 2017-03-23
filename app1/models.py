@@ -61,6 +61,7 @@ class Users(models.Model):
     job = models.CharField('职业', max_length=300, default='', null=True)
     createdAt = models.DateTimeField('创建时间', null=True)
     updatedAt = models.DateTimeField('更新时间', null=True)
+    isDelete = models.IntegerField(default=0)
 
     @staticmethod
     def build(user):
@@ -81,7 +82,8 @@ class Users(models.Model):
                      birth=user.get('birth'),
                      job=user.get('job'),
                      createdAt=user.get('createdAt'),
-                     updatedAt=user.get('updatedAt')
+                     updatedAt=user.get('updatedAt'),
+                     isDelete=user.get('isDelete', 0)
                      )
         return user
 
@@ -103,6 +105,7 @@ class Admins(models.Model):
     parentId = models.CharField(max_length=30, default='')
     createdAt = models.DateTimeField(null=True)
     updatedAt = models.DateTimeField(null=True)
+    isDelete = models.IntegerField(default=0)
 
     @staticmethod
     def build(admins):
@@ -121,7 +124,8 @@ class Admins(models.Model):
                       group_type=admins.get('group_type', 0),
                       parentId=admins.get('parentId', ''),
                       createdAt=admins.get('createdAt'),
-                      updatedAt=admins.get('updatedAt')
+                      updatedAt=admins.get('updatedAt'),
+                      isDelete=admins.get('isDelete', 0)
                       )
 
 
