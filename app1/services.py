@@ -122,7 +122,8 @@ class Services(object):
                 'createdAt': util.get_now_tuc(),
                 'updatedAt': util.get_now_tuc(),
                 'flagNumber': params.get('flagNumber', ''),
-                'group_type': params.get('group_type', 0)
+                'group_type': params.get('group_type', 0),
+                'parentId': params.get('parentId', ''),
             }
             admins = models.Admins.build(admins_params)
             admins.save()
@@ -145,8 +146,8 @@ class Services(object):
                 'birth': params.get('birth'),
                 'flagNumber': params.get('flagNumber'),
                 'political': params.get('political'),
-                'group_type': params.get('group_type'),
-                'parentId': params.get('parentId', ''),
+                # 'group_type': params.get('group_type'),
+                # 'parentId': params.get('parentId', ''),
                 'createdAt': util.get_now_tuc(),
                 'updatedAt': util.get_now_tuc()
             }
