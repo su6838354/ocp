@@ -74,6 +74,7 @@
 	> type  group  loaction
 	> username和name 支持模糊查询
 	> parentId 无该参数时，不为限制条件
+	> group_type 无参数时，不为限制条件
 
 -	【参数】
 
@@ -85,7 +86,8 @@
 		"type": "group",
 		"username": "",
 		"name": "",
-		"parentId": ''
+		"parentId": "",
+		"group_type": 1
 		}
 
 #### 3.登录接口

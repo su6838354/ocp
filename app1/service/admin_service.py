@@ -50,6 +50,10 @@ class AdminService(Services):
         if parentId is not None:
             q_list.append(Q(parentId=parentId))
 
+        group_type = params.get('group_type')
+        if group_type is not None:
+            q_list.append(Q(group_type=group_type))
+
         q_list.append(Q(isDelete=0))
         admins_all = models.Admins.objects.filter(
             *q_list
