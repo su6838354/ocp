@@ -57,4 +57,6 @@ urlpatterns = [
     url(r'^delete_activity2tag$', views.delete_activity2tag, name='delete_activity2tag'),
     url(r'^get_tags$', views.get_tags, name='get_tags'),
     url(r'^delete_tags$', views.delete_tags, name='delete_tags'),
+    url(r'^delete_admin$', views.delete_admin, name='delete_admin'),
+    url(r'^delete_user$', views.delete_user, name='delete_user'),
 ]
