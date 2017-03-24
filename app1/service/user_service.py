@@ -39,7 +39,7 @@ class UserService(Services):
             if group_type == 'admin':
                     q_list.append(Q(group__pid__contains=group))
             elif group_type == 'all':
-                child_pids = models.Admins.objects.filter(parentId=group, isDelete=1).values_list('pid', flat=True)
+                child_pids = models.Admins.objects.filter(parentId=group, isDelete=0).values_list('pid', flat=True)
                 child_pids = list(child_pids)
                 child_pids.append(group)
                 q_list.append(Q(group__pid__in=child_pids))
