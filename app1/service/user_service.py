@@ -80,6 +80,7 @@ class UserService(Services):
         isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
         q_list.append(q_show)
+        q_list.append(Q(isDelete=0)
         users = models.Users.objects.filter(
             *q_list
             #            Q(group__pid__contains=group), Q(flagNumber__contains=flagNumber),
