@@ -77,6 +77,10 @@ class UserService(Services):
         if username != '':
             q_list.append(Q(username__contains=username))
 
+        political = params.get('political', '')
+        if political != '':
+            q_list.append(Q(political__contains=political))
+
         isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
         q_list.append(q_show)

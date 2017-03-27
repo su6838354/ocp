@@ -10,7 +10,7 @@
 -	1.host:139.196.243.147:3390
 -	2.返回结果格式如下，code＝0表示接口正常返回，msg附带接口返回说明，data为接口返回数据
 		get_activities_by_join
-		{
+		{political
 		"code": 112,
 		"data":{}
 		}
@@ -230,6 +230,7 @@
 		{
 		  "limit": 10,
 		  "page_index": 1,
+		  "political": "dang",
 		  "group": "5704024971cfe4005dc06f9d",
 		  "location": "5704024971cfe4005dc06f9d",
 		  "flagNumber": "11",
