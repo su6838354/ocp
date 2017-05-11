@@ -17,7 +17,7 @@ from app1.services import Services
 from app1.service.admin_service import AdminService
 
 service = AdminService()
-
+from app1.util import log
 
 def add_admin(request):
     body_json = json.loads(request.body)
@@ -28,6 +28,7 @@ def add_admin(request):
 def get_admins(request):
     params = json.loads(request.body)
     res = service.get_admins(params)
+    log.info("======3")
     return res
 
 

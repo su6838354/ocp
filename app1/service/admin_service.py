@@ -64,10 +64,13 @@ class AdminService(Services):
         ).order_by('-createdAt')
         count = admins_all.count()
         admins = admins_all[(page_index - 1) * limit: page_index * limit]
+	log.info(admins)
         # admins_json = serializers.serialize('json', admins)
+	log.info(1)
         fields = [f.name for f in models.Admins._meta.fields]
         # fields.append('')
         admins_list = list(admins.values(*fields))
+	log.info(2);
         res = {'code': 0, 'data': admins_list}
         res.update(util.make_pagination(count, page_index, limit))
         return res
