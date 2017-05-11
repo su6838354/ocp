@@ -510,10 +510,10 @@ class Services(object):
                     if checkin is not None:
                         user_dict['checkin'] = json.loads(checkin)
 
-		    checkin2016 = user_dict.get('checkin2016')
-		    if checkin2016 is not None:
-			user_dict['checkin2016'] = json.loads(checkin2016)
-			print user_dict
+                    checkin2016 = user_dict.get('checkin2016')
+                    if checkin2016 is not None:
+                        user_dict['checkin2016'] = json.loads(checkin2016)
+                        print user_dict
                     return {'code': 0, 'data': user_dict}
             return {'code': 111, 'data': None, 'msg': '不存在用户'}
         elif user_role == "SuperAdmin":
@@ -566,7 +566,7 @@ class Services(object):
         ).order_by('-createdAt')
         count = act_join_logs.count()
         fileds = ['objectId', 'user__pid', 'user__realname', 'user__group__name',
-                  'user__location__name', 'isInner', 'star', 'extra', 'activity__title', 'createdAt']
+                  'user__location__name', 'isInner', 'star', 'extra', 'activity__title', 'createdAt', 'mark']
         act_join_logs_values = act_join_logs[(page_index - 1) * limit: page_index * limit]. \
             values(*fileds)
         act_join_logs_list = list(act_join_logs_values)

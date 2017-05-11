@@ -51,6 +51,7 @@ class Users(models.Model):
     idcard = models.CharField('身份证号', max_length=30, default='', null=True)
     username = models.CharField('用户名', max_length=100, default='', null=True)
     checkin = models.CharField('bool,签到日期用，隔开', max_length=300, null=True)
+    checkin2016 = models.CharField('bool,2016签到日期用，隔开', max_length=300, null=True)
     pid = models.CharField('主键', max_length=30, primary_key=True)
     political = models.CharField('党组织身份', max_length=50, default='', null=True)
     isShow = models.CharField(max_length=10, default='', null=True)
@@ -196,6 +197,7 @@ class ActJoinLog(models.Model):
     userLocationArr = models.ForeignKey(Admins, related_name='actJL_user_location', null=True)
     extra = models.IntegerField(null=True)
     star = models.IntegerField(null=True)
+    mark = models.IntegerField(null=True)
     activity = models.ForeignKey(Activities, null=True)
     isInner = models.BooleanField(default=False)
     userGroupArr = models.ForeignKey(Admins, related_name='actJL_user_group', null=True)
@@ -210,6 +212,7 @@ class ActJoinLog(models.Model):
                                   userLocationArr=act_join_log.get('userLocationArr'),
                                   extra=act_join_log.get('extra'),
                                   star=act_join_log.get('star'),
+                                  mark=act_join_log.get('mark'),
                                   activity=act_join_log.get('activity'),
                                   isInner=act_join_log.get('isInner'),
                                   userGroupArr=act_join_log.get('userGroupArr'),
