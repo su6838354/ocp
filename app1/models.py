@@ -145,6 +145,7 @@ class Activities(models.Model):
     end = models.DateTimeField(null=True)
     createdAt = models.DateTimeField(null=True)
     updatedAt = models.DateTimeField(null=True)
+    status = models.CharField(max_length=100, null=True, default='pass')
 
     @staticmethod
     def build(activities):
@@ -160,7 +161,8 @@ class Activities(models.Model):
                           joinnum=activities.get('joinnum'),
                           end=activities.get('end'),
                           createdAt=activities.get('createdAt'),
-                          updatedAt=activities.get('updatedAt')
+                          updatedAt=activities.get('updatedAt'),
+                          status=activities.get('status')
                           )
 
 

@@ -91,3 +91,8 @@ def update_act_join_log_extra(request):
     params = json.loads(request.body)
     res = service.update_act_join_log_extra(params)
     return res
+
+def update_activity_status(request):
+    params = json.load(request.body)
+    res = service.update_activity_status(params)
+    return res

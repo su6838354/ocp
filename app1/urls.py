@@ -48,6 +48,8 @@ urlpatterns = [
     url(r'^get_act_join_log$', views.get_act_join_log, name='get_act_join_log'),
     url(r'^create_act_join_log$', views.create_act_join_log, name='create_act_join_log'),
     url(r'^update_act_join_log_extra$', views.update_act_join_log_extra, name='update_act_join_log_extra'),
+    url(r'^update_activity_status', views.update_activity_status, name='update_activity_status'),
+
     #-------------------------------------------------------------------------------
     url(r'^get_user_checkin$', views.get_user_checkin, name='get_user_checkin'),
     url(r'^get_users$', views.get_users, name='get_users'),

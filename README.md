@@ -333,7 +333,8 @@
 		skip			offset偏移
 		admin			支持模糊查询
 		group_type			查询方式，all为查出自己包括子组织；admin为查询指定admin的，不传的时候，默认值为admin
-
+        status          all 全部数据，pass 通过的数据
+        
 		数据中的admin__name 为外键中的数据，需要关注
 
 -	【参数】
@@ -345,7 +346,8 @@
 		"page_index":2,
 		"admin":"57071cdda34131004cfea8fe",
 	    "isShow": "-1",
-		"group_type": "all" // all  admin
+		"group_type": "all", // all  admin
+		"status": "all" // all pass fail wait
 		}
 
 
@@ -616,4 +618,16 @@
 
 		{
 		"pid": "1111111111111"
+		}
+
+#### 3.更新活动状态
+	/app1/update_activity_status
+-	【权限】U
+-	【说明】
+
+-	【参数】
+
+		{
+		"objectId": "1111111111111"，
+		"status": "pass" // "fail",""pass","wait"
 		}

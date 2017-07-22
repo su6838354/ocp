@@ -23,6 +23,7 @@ class ActivityService(Services):
     """
         获取某个活动详情
     """
+
     def get_activity(self, objectId):
         if objectId:
             activity = models.Activities.objects.get(objectId=objectId)
@@ -43,9 +44,11 @@ class ActivityService(Services):
                 'code': 100,
                 'data': {}
             }
+
     """
     获取活动列表
     """
+
     def get_activities(self, params):
         isDelete = params.get('isDelete')
         limit = params.get('limit', 10)
@@ -54,6 +57,7 @@ class ActivityService(Services):
         admin_pid = params.get('admin', '')
         isShow = params.get('isShow', '-1')
         q_show = self._get_q_show(isShow)
+        status = params.get('status', 'pass')
         if group_type == 'admin':
             activities_all = models.Activities.objects.filter(
                 Q(isDelete=isDelete),
@@ -67,6 +71,9 @@ class ActivityService(Services):
                 Q(isDelete=isDelete),
                 Q(admin__pid__in=child_pids), q_show
             ).order_by('-createdAt')
+
+        if status != 'all':
+            activities_all = activities_all.filter(status=status)
 
         count = activities_all.count()
         activities = activities_all[(page_index - 1) * limit: page_index * limit]
@@ -93,6 +100,7 @@ class ActivityService(Services):
     """
         活动数据导入接口
     """
+
     def add_activity(self, activity):
         admin_id = activity.get('admin')
         if self.__check_id_tuple(admin_id):
@@ -116,6 +124,7 @@ class ActivityService(Services):
     """
         更新活动
     """
+
     def update_activity(self, params):
         # params['objectId'] = util.get_uuid_24()
         # params['createdAt'] = util.get_now_tuc()
@@ -157,14 +166,19 @@ class ActivityService(Services):
     """
          创建活动
     """
+
     def create_activity(self, params):
         params['objectId'] = util.get_uuid_24()
         params['createdAt'] = util.get_now_tuc()
         params['updatedAt'] = util.get_now_tuc()
+        params['status'] = 'pass'
         admin_id = params.get('admin')
         if admin_id is not None and admin_id != '':
             admin = models.Admins.objects.get(pid=admin_id)
             params['admin'] = admin
+            if admin.group_type == 2:
+                "如果是下属单位，默认为待审核"
+                params['status'] = 'wait'
         else:
             params['admin'] = None
 
@@ -183,6 +197,7 @@ class ActivityService(Services):
     """
      获取参加指定活动人数
     """
+
     def get_act_registration_count(self, params):
         activity_objectId = params.get('activity', '')
         user_pid = params.get('user', '')
@@ -191,3 +206,10 @@ class ActivityService(Services):
             Q(activity=activity_objectId), Q(user__pid__contains=user_pid)
         ).count()
         return {'code': 0, 'data': {'count': act_registration_count}}
+
+    def update_activity_status(self, params):
+        objectId = params.get('objectId')
+        models.Activities.objects.filter(objectId=objectId).update(
+            status=params.get('status')
+        )
+        return {'code': 0, 'data': {'objectId': objectId}, 'message': '更新状态成功'}
