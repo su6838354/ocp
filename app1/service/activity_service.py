@@ -20,6 +20,9 @@ class ActivityService(Services):
     def __init__(self):
         pass
 
+    """
+        获取某个活动详情
+    """
     def get_activity(self, objectId):
         if objectId:
             activity = models.Activities.objects.get(objectId=objectId)
@@ -40,7 +43,9 @@ class ActivityService(Services):
                 'code': 100,
                 'data': {}
             }
-
+    """
+    获取活动列表
+    """
     def get_activities(self, params):
         isDelete = params.get('isDelete')
         limit = params.get('limit', 10)
@@ -84,3 +89,105 @@ class ActivityService(Services):
         res = {'code': 0, 'data': list(activities_values)}
         res.update(util.make_pagination(count, page_index, limit))
         return res
+
+    """
+        活动数据导入接口
+    """
+    def add_activity(self, activity):
+        admin_id = activity.get('admin')
+        if self.__check_id_tuple(admin_id):
+            admin = models.Admins.objects.get(pid=admin_id[0])
+            activity['admin'] = admin
+        else:
+            activity['admin'] = None
+
+        begin = activity.get('begin')
+        if begin is not None:
+            activity['begin'] = begin.get('ios')
+
+        end = activity.get('end')
+        if begin is not None:
+            activity['end'] = end.get('ios')
+
+        activity = models.Activities.build(activity)
+        activity.save()
+        return {'code': 0}
+
+    """
+        更新活动
+    """
+    def update_activity(self, params):
+        # params['objectId'] = util.get_uuid_24()
+        # params['createdAt'] = util.get_now_tuc()
+        objectId = params.get('objectId')
+        models.Activities.objects. \
+            filter(objectId=objectId).update(
+            content=params.get('content'),
+            title=params.get('title'),
+            isDelete=params.get('isDelete'),
+            isShow=params.get('isShow'),
+            limit=params.get('limit', ''),
+            place=params.get('place', ''),
+            updatedAt=util.get_now_tuc()
+        )
+        tag_ids = params.get('tag_ids', [])
+        models.Activity2Tag.objects.filter(activity_id=objectId).delete()
+        if params.get('isDelete') not in ['1', 1]:
+            for tag_id in tag_ids:
+                a2t = models.Activity2Tag(activity_id=objectId,
+                                          tag_id=tag_id,
+                                          createdAt=util.get_now_tuc(),
+                                          updatedAt=util.get_now_tuc())
+                a2t.save()
+
+        return {'code': 0, 'data': {'objectId': objectId}, 'msg': '更新成功'}
+
+        #
+        # params['updatedAt'] = util.get_now_tuc()
+        #
+        # admin_id = params.get('admin')
+        # if admin_id is not None and admin_id != '':
+        #     admin = models.Admins.objects.get(pid=admin_id)
+        #     params['admin'] = admin
+        # else:
+        #     params['admin'] = None
+        # activity = models.Activities.build(params)
+        # activity.save()
+
+    """
+         创建活动
+    """
+    def create_activity(self, params):
+        params['objectId'] = util.get_uuid_24()
+        params['createdAt'] = util.get_now_tuc()
+        params['updatedAt'] = util.get_now_tuc()
+        admin_id = params.get('admin')
+        if admin_id is not None and admin_id != '':
+            admin = models.Admins.objects.get(pid=admin_id)
+            params['admin'] = admin
+        else:
+            params['admin'] = None
+
+        activity = models.Activities.build(params)
+        activity.save()
+        activity_id = activity.objectId
+        tag_ids = params.get('tag_ids')
+        for tag_id in tag_ids:
+            a2t = models.Activity2Tag(activity_id=activity_id,
+                                      tag_id=tag_id,
+                                      createdAt=util.get_now_tuc(),
+                                      updatedAt=util.get_now_tuc())
+            a2t.save()
+        return {'code': 0, 'data': {'objectId': activity.objectId}, 'msg': '保存成功'}
+
+    """
+     获取参加指定活动人数
+    """
+    def get_act_registration_count(self, params):
+        activity_objectId = params.get('activity', '')
+        user_pid = params.get('user', '')
+
+        act_registration_count = models.ActRegistration.objects.filter(
+            Q(activity=activity_objectId), Q(user__pid__contains=user_pid)
+        ).count()
+        return {'code': 0, 'data': {'count': act_registration_count}}

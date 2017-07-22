@@ -52,7 +52,7 @@ class Users(models.Model):
     username = models.CharField('用户名', max_length=100, default='', null=True)
     checkin = models.CharField('bool,签到日期用，隔开', max_length=300, null=True)
     checkin2016 = models.CharField('bool,2016签到日期用，隔开', max_length=300, null=True)
-    pid = models.CharField('主键', max_length=30, primary_key=True)
+    pid = models.CharField('主键对应到_user中', max_length=30, primary_key=True)
     political = models.CharField('党组织身份', max_length=50, default='', null=True)
     isShow = models.CharField(max_length=10, default='', null=True)
     mobile = models.CharField('手机号码', max_length=30, default='', null=True)
